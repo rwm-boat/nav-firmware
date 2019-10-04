@@ -30,14 +30,22 @@ def publish_gps_status():
         'speed': agps_thread.data_stream.speed,
         'course': agps_thread.data_stream.track
     }
-    led_message = {
-            'led_id' : 26,
-            'command' : 1
+    led_on_message = {
+        'led_id' : 13,
+        'command' : 1
+    }
+    led_off_message = {
+        'led_id' : 13,
+        'command' : 0
     }
 
-    #if(agps_thread.data_stream.time == 'n/a'):
-    app_json = json.dumps(led_message)
-    pubber.publish("/command/led",app_json)
+    if(agps_thread.data_stream.time == 'n/a'):
+        app_json = json.dumps(led_on_message)
+        pubber.publish("/command/led",app_json)
+    else:
+        app_json = json.dumps(led_off_message)
+        pubber.publish("/command/led",app_json)
+        
     app_json = json.dumps(message)
     pubber.publish("/status/gps",app_json)
 
@@ -63,16 +71,14 @@ def on_led_command(client, userdata, message):
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
         GPIO.setup(19,GPIO.OUT) # BLUE
-        GPIO.setup(26,GPIO.OUT) 
-        GPIO.setup(13,GPIO.OUT)
+        GPIO.setup(26,GPIO.OUT) # WHITE
+        GPIO.setup(13,GPIO.OUT) # GREEN
         if(led_opp == 1):
             GPIO.output(led_selector,GPIO.HIGH)
         else:
             GPIO.output(led_selector,GPIO.LOW)
-
-
     except Exception:
-        print("LED FAILTURE")
+        # print("LED FAILTURE")
 
 
 # Setup Subscriber to change LED
