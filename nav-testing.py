@@ -146,8 +146,6 @@ def publish_internal_compass_status():
 	b = datetime.datetime.now() - a
 	a = datetime.datetime.now()
 	LP = b.microseconds/(1000000*1.0)
-	print "Loop Time %5.2f " % ( LP ),
-
 
 	#Convert Gyro raw to degrees per second
 	rate_gyr_x =  GYRx * G_GAIN
@@ -202,7 +200,7 @@ def publish_internal_compass_status():
 				tiltCompensatedHeading += 360
 
 	message = {
-		'heading' = tiltCompensatedHeading,
+                'heading': tiltCompensatedHeading
 	}
 
 	app_json = json.dumps(message)
