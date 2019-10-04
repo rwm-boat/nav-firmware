@@ -38,7 +38,7 @@ def publish_gps_status():
         'led_id' : 13,
         'command' : 0
     }
-
+    print(message['time'])
     if(agps_thread.data_stream.time == 'n/a'):
         app_json = json.dumps(led_off_message)
         pubber.publish("/command/led",app_json)
@@ -94,7 +94,7 @@ subber = Subscriber(client_id="led_actuator", broker_ip="192.168.1.170", default
 thread = Thread(target=subber.listen)
 thread.start()
 
-subber.listen()
+#subber.listen()
 
 try: 
     while True:
