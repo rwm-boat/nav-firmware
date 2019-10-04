@@ -63,7 +63,7 @@ pubber = Publisher(client_id="nav-pubber")
 
 def publish_gps_status():
 		
-	if (agps_thread.data_stream.speed is not 'n/a'):
+	if (agps_thread.data_stream.speed != 'n/a'):
 		speed_kn = agps_thread.data_stream.speed * 1.94384449
 	else:
 		speed_kn = 0
