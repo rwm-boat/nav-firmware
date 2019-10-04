@@ -78,17 +78,17 @@ pubber = Publisher(client_id="nav-pubber")
 
 # ------------- Kalman Filter for Gyro ------------------
 def kalmanFilterY ( accAngle, gyroRate, DT):
-        y=0.0
-        S=0.0
+		y=0.0
+		S=0.0
 
-        global KFangleY
-        global Q_angle
-        global Q_gyro
-        global y_bias
-        global YP_00
-        global YP_01
-        global YP_10
-        global YP_11
+		global KFangleY
+		global Q_angle
+		global Q_gyro
+		global y_bias
+		global YP_00
+		global YP_01
+		global YP_10
+		global YP_11
 
 	KFangleY = KFangleY + DT * (gyroRate - y_bias)
 
@@ -149,171 +149,171 @@ def kalmanFilterX ( accAngle, gyroRate, DT):
 	return KFangleX
 
 def publish_gps_status():
-    message = {
-        'time' :  agps_thread.data_stream.time,
-        'latitude' : agps_thread.data_stream.lat,
-        'longitude' : agps_thread.data_stream.lon,
-        'speed': agps_thread.data_stream.speed,
-        'course': agps_thread.data_stream.track
-    }
+	message = {
+		'time' :  agps_thread.data_stream.time,
+		'latitude' : agps_thread.data_stream.lat,
+		'longitude' : agps_thread.data_stream.lon,
+		'speed': agps_thread.data_stream.speed,
+		'course': agps_thread.data_stream.track
+	}
 
-    led_on_message = {
-        'led_id' : 13,
-        'command' : 1
-    }
+	led_on_message = {
+		'led_id' : 13,
+		'command' : 1
+	}
 
-    led_off_message = {
-        'led_id' : 13,
-        'command' : 0
-    }
+	led_off_message = {
+		'led_id' : 13,
+		'command' : 0
+	}
 
-    # check to see if the gps has a fix
+	# check to see if the gps has a fix
 
-    if(agps_thread.data_stream.time == 'n/a'):
-        app_json = json.dumps(led_off_message)
-        pubber.publish("/command/led",app_json)
+	if(agps_thread.data_stream.time == 'n/a'):
+		app_json = json.dumps(led_off_message)
+		pubber.publish("/command/led",app_json)
 
-    else:
-        app_json = json.dumps(led_on_message)
-        pubber.publish("/command/led",app_json)
+	else:
+		app_json = json.dumps(led_on_message)
+		pubber.publish("/command/led",app_json)
   
-    app_json = json.dumps(message)
-    pubber.publish("/status/gps",app_json)
+	app_json = json.dumps(message)
+	pubber.publish("/status/gps",app_json)
 
 def publish_compas_status():
-    mag_x, mag_y, mag_z = sensor.magnetic
-    temp = sensor.temperature
-    compass = round(-(24 + numpy.degrees(numpy.arctan2(mag_x, mag_y))))
-    if compass < 0:
-        compass = 360 + compass
-    screencompass = compass
-    message = {
-        'temp' : temp,
-        'compass': compass,
-    }
-    app_json = json.dumps(message)
-    pubber.publish("/status/compass",app_json)
+	mag_x, mag_y, mag_z = sensor.magnetic
+	temp = sensor.temperature
+	compass = round(-(24 + numpy.degrees(numpy.arctan2(mag_x, mag_y))))
+	if compass < 0:
+		compass = 360 + compass
+	screencompass = compass
+	message = {
+		'temp' : temp,
+		'compass': compass,
+	}
+	app_json = json.dumps(message)
+	pubber.publish("/status/compass",app_json)
 
 def publish_internal_compass_status():
 
-    #Read the accelerometer,gyroscope and magnetometer values
-    ACCx = IMU.readACCx()
-    ACCy = IMU.readACCy()
-    ACCz = IMU.readACCz()
-    GYRx = IMU.readGYRx()
-    GYRy = IMU.readGYRy()
-    GYRz = IMU.readGYRz()
-    MAGx = IMU.readMAGx()
-    MAGy = IMU.readMAGy()
-    MAGz = IMU.readMAGz()
-    
+	#Read the accelerometer,gyroscope and magnetometer values
+	ACCx = IMU.readACCx()
+	ACCy = IMU.readACCy()
+	ACCz = IMU.readACCz()
+	GYRx = IMU.readGYRx()
+	GYRy = IMU.readGYRy()
+	GYRz = IMU.readGYRz()
+	MAGx = IMU.readMAGx()
+	MAGy = IMU.readMAGy()
+	MAGz = IMU.readMAGz()
+	
 
-    #Apply compass calibration    
-    MAGx -= (magXmin + magXmax) /2 
-    MAGy -= (magYmin + magYmax) /2 
-    MAGz -= (magZmin + magZmax) /2 
+	#Apply compass calibration    
+	MAGx -= (magXmin + magXmax) /2 
+	MAGy -= (magYmin + magYmax) /2 
+	MAGz -= (magZmin + magZmax) /2 
  
-    
-    ##Calculate loop Period(LP). How long between Gyro Reads
-    b = datetime.datetime.now() - a
-    a = datetime.datetime.now()
-    LP = b.microseconds/(1000000*1.0)
-    print "Loop Time %5.2f " % ( LP ),
+	
+	##Calculate loop Period(LP). How long between Gyro Reads
+	b = datetime.datetime.now() - a
+	a = datetime.datetime.now()
+	LP = b.microseconds/(1000000*1.0)
+	print "Loop Time %5.2f " % ( LP ),
 
 
-    #Convert Gyro raw to degrees per second
-    rate_gyr_x =  GYRx * G_GAIN
-    rate_gyr_y =  GYRy * G_GAIN
-    rate_gyr_z =  GYRz * G_GAIN
+	#Convert Gyro raw to degrees per second
+	rate_gyr_x =  GYRx * G_GAIN
+	rate_gyr_y =  GYRy * G_GAIN
+	rate_gyr_z =  GYRz * G_GAIN
 
 
-    #Calculate the angles from the gyro. 
-    gyroXangle+=rate_gyr_x*LP
-    gyroYangle+=rate_gyr_y*LP
-    gyroZangle+=rate_gyr_z*LP
+	#Calculate the angles from the gyro. 
+	gyroXangle+=rate_gyr_x*LP
+	gyroYangle+=rate_gyr_y*LP
+	gyroZangle+=rate_gyr_z*LP
 
-    #scull logo is facing down
-    AccXangle =  (math.atan2(ACCy,ACCz)*RAD_TO_DEG)
-    AccYangle =  (math.atan2(ACCz,ACCx)+M_PI)*RAD_TO_DEG
+	#scull logo is facing down
+	AccXangle =  (math.atan2(ACCy,ACCz)*RAD_TO_DEG)
+	AccYangle =  (math.atan2(ACCz,ACCx)+M_PI)*RAD_TO_DEG
 
-    #Change the rotation value of the accelerometer to -/+ 180 and
-    #move the Y axis '0' point to up.  This makes it easier to read.
-    if AccYangle > 90:
-        AccYangle -= 270.0
-    else:
-        AccYangle += 90.0
+	#Change the rotation value of the accelerometer to -/+ 180 and
+	#move the Y axis '0' point to up.  This makes it easier to read.
+	if AccYangle > 90:
+		AccYangle -= 270.0
+	else:
+		AccYangle += 90.0
 
-    #Complementary filter used to combine the accelerometer and gyro values.
-    CFangleX=AA*(CFangleX+rate_gyr_x*LP) +(1 - AA) * AccXangle
-    CFangleY=AA*(CFangleY+rate_gyr_y*LP) +(1 - AA) * AccYangle
+	#Complementary filter used to combine the accelerometer and gyro values.
+	CFangleX=AA*(CFangleX+rate_gyr_x*LP) +(1 - AA) * AccXangle
+	CFangleY=AA*(CFangleY+rate_gyr_y*LP) +(1 - AA) * AccYangle
 
-    #Kalman filter used to combine the accelerometer and gyro values.
-    kalmanY = kalmanFilterY(AccYangle, rate_gyr_y,LP)
-    kalmanX = kalmanFilterX(AccXangle, rate_gyr_x,LP)
+	#Kalman filter used to combine the accelerometer and gyro values.
+	kalmanY = kalmanFilterY(AccYangle, rate_gyr_y,LP)
+	kalmanX = kalmanFilterX(AccXangle, rate_gyr_x,LP)
 
-    if IMU_UPSIDE_DOWN:
-        MAGy = -MAGy      #If IMU is upside down, this is needed to get correct heading.
-    #Calculate heading
-    heading = 180 * math.atan2(MAGy,MAGx)/M_PI
+	if IMU_UPSIDE_DOWN:
+		MAGy = -MAGy      #If IMU is upside down, this is needed to get correct heading.
+	#Calculate heading
+	heading = 180 * math.atan2(MAGy,MAGx)/M_PI
 
-    #Only have our heading between 0 and 360
-    if heading < 0:
-        heading += 360
+	#Only have our heading between 0 and 360
+	if heading < 0:
+		heading += 360
 
-    #Use these two lines when the IMU is up the right way. Skull logo is facing down
-    accXnorm = ACCx/math.sqrt(ACCx * ACCx + ACCy * ACCy + ACCz * ACCz)
-    accYnorm = ACCy/math.sqrt(ACCx * ACCx + ACCy * ACCy + ACCz * ACCz)
+	#Use these two lines when the IMU is up the right way. Skull logo is facing down
+	accXnorm = ACCx/math.sqrt(ACCx * ACCx + ACCy * ACCy + ACCz * ACCz)
+	accYnorm = ACCy/math.sqrt(ACCx * ACCx + ACCy * ACCy + ACCz * ACCz)
 
-    #Calculate pitch and roll
+	#Calculate pitch and roll
 
-    pitch = math.asin(accXnorm)
-    roll = -math.asin(accYnorm/math.cos(pitch))
+	pitch = math.asin(accXnorm)
+	roll = -math.asin(accYnorm/math.cos(pitch))
 
 
-    #Calculate the new tilt compensated values
-    magXcomp = MAGx*math.cos(pitch)+MAGz*math.sin(pitch)
+	#Calculate the new tilt compensated values
+	magXcomp = MAGx*math.cos(pitch)+MAGz*math.sin(pitch)
 
-    magYcomp = MAGx*math.sin(roll)*math.sin(pitch)+MAGy*math.cos(roll)-MAGz*math.sin(roll)*math.cos(pitch)   #LSM9DS0
+	magYcomp = MAGx*math.sin(roll)*math.sin(pitch)+MAGy*math.cos(roll)-MAGz*math.sin(roll)*math.cos(pitch)   #LSM9DS0
 
-    #Calculate tilt compensated heading
-    tiltCompensatedHeading = 180 * math.atan2(magYcomp,magXcomp)/M_PI
+	#Calculate tilt compensated heading
+	tiltCompensatedHeading = 180 * math.atan2(magYcomp,magXcomp)/M_PI
 
-    if tiltCompensatedHeading < 0:
-                tiltCompensatedHeading += 360
+	if tiltCompensatedHeading < 0:
+				tiltCompensatedHeading += 360
 
-    message = {
-        'heading' = tiltCompensatedHeading,
-    }
+	message = {
+		'heading' = tiltCompensatedHeading,
+	}
 
-    app_json = json.dumps(message)
-    pubber.publish("/status/internal_compass",app_json)
-    
+	app_json = json.dumps(message)
+	pubber.publish("/status/internal_compass",app_json)
+	
 def on_led_command(client, userdata, message):
-    obj = json.loads(message.payload.decode('utf-8'))
-    led_selector = obj['led_id']
-    led_opp = obj['command']
-    try:
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setwarnings(False)
-        GPIO.setup(19,GPIO.OUT) # BLUE
-        GPIO.setup(26,GPIO.OUT) # WHITE
-        GPIO.setup(13,GPIO.OUT) # GREEN
-        
-        if(led_opp == 1):
-            GPIO.output(led_selector,GPIO.HIGH)
-        else:
-            GPIO.output(led_selector,GPIO.LOW)
+	obj = json.loads(message.payload.decode('utf-8'))
+	led_selector = obj['led_id']
+	led_opp = obj['command']
+	try:
+		GPIO.setmode(GPIO.BCM)
+		GPIO.setwarnings(False)
+		GPIO.setup(19,GPIO.OUT) # BLUE
+		GPIO.setup(26,GPIO.OUT) # WHITE
+		GPIO.setup(13,GPIO.OUT) # GREEN
+		
+		if(led_opp == 1):
+			GPIO.output(led_selector,GPIO.HIGH)
+		else:
+			GPIO.output(led_selector,GPIO.LOW)
 
-    except Exception:
-         pass
-        # print("LED FAILTURE")
+	except Exception:
+		 pass
+		# print("LED FAILTURE")
 
 
 
 
 # Setup Subscriber to change LED
 default_subscriptions = {
-    "/command/led": on_led_command
+	"/command/led": on_led_command
 }
 subber = Subscriber(client_id="led_actuator", broker_ip="192.168.1.170", default_subscriptions=default_subscriptions)
 
@@ -323,14 +323,14 @@ thread.start()
 #subber.listen()
 
 try: 
-    while True:
-        publish_gps_status()
-        publish_compas_status()
-        time.sleep(.1)
+	while True:
+		publish_gps_status()
+		publish_compas_status()
+		time.sleep(.1)
 except KeyboardInterrupt:
-    # turn off all leds when program exits
-    GPIO.output(13,GPIO.LOW)
-    GPIO.output(19,GPIO.LOW)
-    GPIO.output(26,GPIO.LOW)
+	# turn off all leds when program exits
+	GPIO.output(13,GPIO.LOW)
+	GPIO.output(19,GPIO.LOW)
+	GPIO.output(26,GPIO.LOW)
 
 
