@@ -30,14 +30,15 @@ def publish_gps_status():
         'speed': agps_thread.data_stream.speed,
         'course': agps_thread.data_stream.track
     }
-    print(message)
-    if(agps_thread.data_stream.time == 'n/a'):
-        led_message = {
+    led_message = {
             'led_id' : None,
             'command' : None
-        }
-    app_json = json.dumps(led_message)
-    pubber.publish("/status/led",led_message)
+    }
+
+    if(agps_thread.data_stream.time == 'n/a'):
+        app_json = json.dumps(led_message)
+        pubber.publish("/status/led",app_json)
+        
     app_json = json.dumps(message)
     pubber.publish("/status/gps",app_json)
 
