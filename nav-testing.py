@@ -96,9 +96,14 @@ thread.start()
 
 subber.listen()
 
-while True:
-    publish_gps_status()
-    publish_compas_status()
-    time.sleep(1)
+try: 
+    while True:
+        publish_gps_status()
+        publish_compas_status()
+        time.sleep(1)
+except KeyboardInterrupt:
+    GPIO.output(13,GPIO.LOW)
+    GPIO.output(19,GPIO.LOW)
+    GPIO.output(26,GPIO.LOW)
 
 
