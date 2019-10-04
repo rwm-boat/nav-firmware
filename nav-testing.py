@@ -30,6 +30,7 @@ def publish_gps_status():
         'speed': agps_thread.data_stream.speed,
         'course': agps_thread.data_stream.track
     }
+    print(message)
     app_json = json.dumps(message)
     pubber.publish("/status/gps",app_json)
 
