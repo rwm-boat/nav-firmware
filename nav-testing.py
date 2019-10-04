@@ -78,17 +78,17 @@ pubber = Publisher(client_id="nav-pubber")
 
 # ------------- Kalman Filter for Gyro ------------------
 def kalmanFilterY ( accAngle, gyroRate, DT):
-    	y=0.0
-	S=0.0
+        y=0.0
+        S=0.0
 
-	global KFangleY
-	global Q_angle
-	global Q_gyro
-	global y_bias
-	global YP_00
-	global YP_01
-	global YP_10
-	global YP_11
+        global KFangleY
+        global Q_angle
+        global Q_gyro
+        global y_bias
+        global YP_00
+        global YP_01
+        global YP_10
+        global YP_11
 
 	KFangleY = KFangleY + DT * (gyroRate - y_bias)
 
