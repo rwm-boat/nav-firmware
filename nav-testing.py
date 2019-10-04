@@ -33,8 +33,8 @@ def publish_gps_status():
     print(message)
     if(message["time"] == 'n/a'):
         led_message = {
-            'led_id' : 0
-            'command' : 0
+            'led_id' : None,
+            'command' : None
         }
     pubber.publish("/status/led",led_message)
     app_json = json.dumps(message)
