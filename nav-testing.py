@@ -162,7 +162,7 @@ def publish_internal_compass_status():
 	message = {
                 'heading': tiltCompensatedHeading
 	}
-
+	print(message)
 	app_json = json.dumps(message)
 	pubber.publish("/status/internal_compass",app_json)
 	
