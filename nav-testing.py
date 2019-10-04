@@ -62,11 +62,11 @@ a = datetime.datetime.now()
 pubber = Publisher(client_id="nav-pubber")
 
 def publish_gps_status():
-    	
+		
 		if (agps_thread.data_stream.speed is not 'n/a'):
 			speed_kn = agps_thread.data_stream.speed * 1.94384449
 		else:
-    		speed_kn = 0
+			speed_kn = 0
 	message = {
 		'time' :  agps_thread.data_stream.time,
 		'latitude' : agps_thread.data_stream.lat,
@@ -150,7 +150,7 @@ def publish_internal_compass_status():
 	# 			tiltCompensatedHeading += 360
 
 	message = {
-                'heading': heading
+				'heading': heading
 	}
 	app_json = json.dumps(message)
 	pubber.publish("/status/internal_compass",app_json)
