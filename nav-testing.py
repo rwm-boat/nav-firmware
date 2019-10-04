@@ -149,19 +149,19 @@ def publish_internal_compass_status():
 	if heading < 0:
 		heading += 360
 
-	#Calculate the new tilt compensated values
-	magXcomp = MAGx*math.cos(pitch)+MAGz*math.sin(pitch)
+	# # #Calculate the new tilt compensated values
+	#  magXcomp = MAGx*math.cos(pitch)+MAGz*math.sin(pitch)
 
-	magYcomp = MAGx*math.sin(roll)*math.sin(pitch)+MAGy*math.cos(roll)-MAGz*math.sin(roll)*math.cos(pitch)   #LSM9DS0
+	#  magYcomp = MAGx*math.sin(roll)*math.sin(pitch)+MAGy*math.cos(roll)-MAGz*math.sin(roll)*math.cos(pitch)   #LSM9DS0
 
-	#Calculate tilt compensated heading
-	tiltCompensatedHeading = 180 * math.atan2(magYcomp,magXcomp)/M_PI
+	# #Calculate tilt compensated heading
+	# tiltCompensatedHeading = 180 * math.atan2(magYcomp,magXcomp)/M_PI
 
-	if tiltCompensatedHeading < 0:
-				tiltCompensatedHeading += 360
+	# if tiltCompensatedHeading < 0:
+	# 			tiltCompensatedHeading += 360
 
 	message = {
-                'heading': tiltCompensatedHeading
+                'heading': heading
 	}
 	print(message)
 	app_json = json.dumps(message)
