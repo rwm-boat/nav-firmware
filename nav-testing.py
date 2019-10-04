@@ -31,11 +31,12 @@ def publish_gps_status():
         'course': agps_thread.data_stream.track
     }
     print(message)
-    if(message["time"] == 'n/a'):
+    if(agps_thread.data_stream.time == 'n/a'):
         led_message = {
             'led_id' : None,
             'command' : None
         }
+    app_json = json.dumps(led_message)
     pubber.publish("/status/led",led_message)
     app_json = json.dumps(message)
     pubber.publish("/status/gps",app_json)
