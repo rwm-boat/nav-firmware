@@ -152,7 +152,6 @@ def publish_internal_compass_status():
 	message = {
                 'heading': heading
 	}
-	print(message)
 	app_json = json.dumps(message)
 	pubber.publish("/status/internal_compass",app_json)
 	
