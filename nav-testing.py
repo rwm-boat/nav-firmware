@@ -62,11 +62,16 @@ a = datetime.datetime.now()
 pubber = Publisher(client_id="nav-pubber")
 
 def publish_gps_status():
+    	
+		if (agps_thread.data_stream.speed is not 'n/a'):
+			speed_kn = agps_thread.data_stream.speed * 1.94384449
+		else:
+    		speed_kn = 0
 	message = {
 		'time' :  agps_thread.data_stream.time,
 		'latitude' : agps_thread.data_stream.lat,
 		'longitude' : agps_thread.data_stream.lon,
-		'speed': agps_thread.data_stream.speed,
+		'speed': speed_kn,
 		'course': agps_thread.data_stream.track
 	}
 
