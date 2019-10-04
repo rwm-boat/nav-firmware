@@ -16,13 +16,15 @@ import math
 agps_thread = AGPS3mechanism()  # Instantiate AGPS3 Mechanisms
 agps_thread.stream_data()  # From localhost (), or other hosts, by example, (host='gps.ddns.net')
 agps_thread.run_thread()  # Throttle time to sleep after an empty lookup, default '()' 0.2 two tenths of a second
-
+#initalizing previous GPS location for haversine
+prev_long = 0
+prev_lat = 0	
 # I2C connection:
 i2c = busio.I2C(board.SCL, board.SDA)
 sensor = adafruit_lsm9ds0.LSM9DS0_I2C(i2c)
 
 #internal IMU setup
-#fuck me
+
 # If the IMU is upside down (Skull logo facing up), change this value to 1
 IMU_UPSIDE_DOWN = 0
 
@@ -62,7 +64,18 @@ a = datetime.datetime.now()
 pubber = Publisher(client_id="nav-pubber")
 
 def publish_gps_status():
-		
+	#haversine
+	R = 6372.8 #earth's radius in kilometers
+	curr_long = agps_thread.data_stream.lon 
+	curr_lat = agps_thread.data_stream.lat
+	dLat = raidans(curr_lat-prev_lat)
+	dLong = radians(curr_long-prev_long)
+	prev_lat = radians(prev_lat)
+	curr_lat = radians(curr_lat)
+	a = math.sin(dLat/2)**2 + math.cos(prev_lat) * math.cos(curr_lat) * math.sin(dLong / 2)**2
+	c = 2* math.asin(math.sqrt(a))
+	gps_total_dist = R * c
+
 	if (agps_thread.data_stream.speed is not 'n/a'):
 		speed_kn = agps_thread.data_stream.speed * 1.94384449
 	else:
@@ -73,7 +86,9 @@ def publish_gps_status():
 		'latitude' : agps_thread.data_stream.lat,
 		'longitude' : agps_thread.data_stream.lon,
 		'speed': speed_kn,
-		'course': agps_thread.data_stream.track
+		'course': agps_thread.data_stream.track,
+		'distance': gps_total_dist
+
 	}
 
 	led_on_message = {
@@ -98,6 +113,8 @@ def publish_gps_status():
   
 	app_json = json.dumps(message)
 	pubber.publish("/status/gps",app_json)
+	prev_long = curr_long
+	prev_lat = curr_lat
 
 def publish_compas_status():
 	mag_x, mag_y, mag_z = sensor.magnetic
