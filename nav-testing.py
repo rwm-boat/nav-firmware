@@ -35,10 +35,10 @@ def publish_gps_status():
             'command' : None
     }
 
-    if(agps_thread.data_stream.time == 'n/a'):
-        app_json = json.dumps(led_message)
-        pubber.publish("/status/led",app_json)
-        
+    #if(agps_thread.data_stream.time == 'n/a'):
+    app_json = json.dumps(led_message)
+    pubber.publish("/status/led",app_json)
+
     app_json = json.dumps(message)
     pubber.publish("/status/gps",app_json)
 
