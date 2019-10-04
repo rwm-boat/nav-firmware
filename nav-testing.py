@@ -205,6 +205,7 @@ try:
 	while True:
 		publish_gps_status()
 		publish_compas_status()
+		publish_internal_compass_status()
 		time.sleep(.1)
 except KeyboardInterrupt:
 	# turn off all leds when program exits
