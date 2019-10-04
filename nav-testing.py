@@ -141,52 +141,12 @@ def publish_internal_compass_status():
 	MAGy -= (magYmin + magYmax) /2 
 	MAGz -= (magZmin + magZmax) /2 
  
-	
-	##Calculate loop Period(LP). How long between Gyro Reads
-	b = datetime.datetime.now() - a
-	a = datetime.datetime.now()
-	LP = b.microseconds/(1000000*1.0)
-
-	#Convert Gyro raw to degrees per second
-	rate_gyr_x =  GYRx * G_GAIN
-	rate_gyr_y =  GYRy * G_GAIN
-	rate_gyr_z =  GYRz * G_GAIN
-
-
-	#Calculate the angles from the gyro. 
-	gyroXangle+=rate_gyr_x*LP
-	gyroYangle+=rate_gyr_y*LP
-	gyroZangle+=rate_gyr_z*LP
-
-	#scull logo is facing down
-	AccXangle =  (math.atan2(ACCy,ACCz)*RAD_TO_DEG)
-	AccYangle =  (math.atan2(ACCz,ACCx)+M_PI)*RAD_TO_DEG
-
-	#Change the rotation value of the accelerometer to -/+ 180 and
-	#move the Y axis '0' point to up.  This makes it easier to read.
-	if AccYangle > 90:
-		AccYangle -= 270.0
-	else:
-		AccYangle += 90.0
-
-	if IMU_UPSIDE_DOWN:
-		MAGy = -MAGy      #If IMU is upside down, this is needed to get correct heading.
 	#Calculate heading
 	heading = 180 * math.atan2(MAGy,MAGx)/M_PI
 
 	#Only have our heading between 0 and 360
 	if heading < 0:
 		heading += 360
-
-	#Use these two lines when the IMU is up the right way. Skull logo is facing down
-	accXnorm = ACCx/math.sqrt(ACCx * ACCx + ACCy * ACCy + ACCz * ACCz)
-	accYnorm = ACCy/math.sqrt(ACCx * ACCx + ACCy * ACCy + ACCz * ACCz)
-
-	#Calculate pitch and roll
-
-	pitch = math.asin(accXnorm)
-	roll = -math.asin(accYnorm/math.cos(pitch))
-
 
 	#Calculate the new tilt compensated values
 	magXcomp = MAGx*math.cos(pitch)+MAGz*math.sin(pitch)
