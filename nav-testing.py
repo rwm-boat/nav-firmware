@@ -78,19 +78,20 @@ def on_led_command(client, userdata, message):
         else:
             GPIO.output(led_selector,GPIO.LOW)
     except Exception:
+         pass
         # print("LED FAILTURE")
 
 
 # Setup Subscriber to change LED
 default_subscriptions = {
-    "/command/led": on_led_command,
+    "/command/led": on_led_command
 }
 subber = Subscriber(client_id="led_actuator", broker_ip="192.168.1.170", default_subscriptions=default_subscriptions)
 
 thread = Thread(target=subber.listen)
 thread.start()
 
-#subber.listen()
+subber.listen()
 
 while True:
     publish_gps_status()
