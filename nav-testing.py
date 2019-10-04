@@ -31,14 +31,13 @@ def publish_gps_status():
         'course': agps_thread.data_stream.track
     }
     led_message = {
-            'led_id' : None,
-            'command' : None
+            'led_id' : 26,
+            'command' : 1
     }
 
     #if(agps_thread.data_stream.time == 'n/a'):
     app_json = json.dumps(led_message)
     pubber.publish("/command/led",app_json)
-    print("published led")
     app_json = json.dumps(message)
     pubber.publish("/status/gps",app_json)
 
@@ -63,9 +62,15 @@ def on_led_command(client, userdata, message):
     try:
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
-        GPIO.setup(19,GPIO.OUT)
-        GPIO.output(19,GPIO.HIGH)
-        print("led on")
+        GPIO.setup(19,GPIO.OUT) # BLUE
+        GPIO.setup(26,GPIO.OUT) 
+        GPIO.setup(13,GPIO.OUT)
+        if(led_opp == 1):
+            GPIO.output(led_selector,GPIO.HIGH)
+        else:
+            GPIO.output(led_selector,GPIO.LOW)
+
+
     except Exception:
         print("LED FAILTURE")
 
