@@ -37,12 +37,12 @@ AA =  0.40      # Complementary filter constant
 # Calibrating the compass isnt mandatory, however a calibrated 
 # compass will result in a more accurate heading value.
 
-magXmin =  868
-magYmin =  -164
-magZmin =  -1174
-magXmax =  1003
-magYmax =  -88
-magZmax =  -1063
+magXmin =  0
+magYmin =  0
+magZmin =  0
+magXmax =  0
+magYmax =  0
+magZmax =  0
 
 
 IMU.detectIMU()     #Detect if BerryIMUv1 or BerryIMUv2 is connected.
