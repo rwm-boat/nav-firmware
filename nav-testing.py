@@ -75,8 +75,8 @@ def publish_gps_status():
 	a = math.sin(dLat/2)**2 + math.cos(prev_lat) * math.cos(curr_lat) * math.sin(dLong / 2)**2
 	c = 2* math.asin(math.sqrt(a))
 	gps_total_dist = R * c
-
-	if (agps_thread.data_stream.speed is not 'n/a'):
+		
+	if (agps_thread.data_stream.speed != 'n/a'):
 		speed_kn = agps_thread.data_stream.speed * 1.94384449
 	else:
 		speed_kn = 0
