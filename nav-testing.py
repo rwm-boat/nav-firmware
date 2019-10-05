@@ -12,6 +12,7 @@ from threading import Thread
 import IMU
 import datetime
 import math
+from haversine import haversine,Unit
 # GPS Setup
 agps_thread = AGPS3mechanism()  # Instantiate AGPS3 Mechanisms
 agps_thread.stream_data()  # From localhost (), or other hosts, by example, (host='gps.ddns.net')
@@ -70,8 +71,10 @@ def publish_gps_status():
 	global total_distance
 	
 	current_pos = (agps_thread.data_stream.lat,agps_thread.data_stream.lon)
-	distance_traveled = haversine(current_pos,prev_pos, unit = UNIT.NAUTICAL_MILES)
-	total_distance += distance_traveled
+	distance_traveled = haversine(current_pos,prev_pos, unit=Unit.NAUTICAL_MILES)
+	total_distance = total_distance + distance_traveled
+        print(str(current_pos))
+        print(str(prev_pos))
 			
 	if (agps_thread.data_stream.speed != 'n/a'):
 		speed_kn = agps_thread.data_stream.speed * 1.94384449
