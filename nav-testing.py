@@ -17,8 +17,9 @@ agps_thread = AGPS3mechanism()  # Instantiate AGPS3 Mechanisms
 agps_thread.stream_data()  # From localhost (), or other hosts, by example, (host='gps.ddns.net')
 agps_thread.run_thread()  # Throttle time to sleep after an empty lookup, default '()' 0.2 two tenths of a second
 #initalizing previous GPS location for haversine
-prev_long = 0
-prev_lat = 0	
+prev_pos = 0
+current_pos = 0	
+total_distance = 0
 # I2C connection:
 i2c = busio.I2C(board.SCL, board.SDA)
 sensor = adafruit_lsm9ds0.LSM9DS0_I2C(i2c)
@@ -64,20 +65,14 @@ a = datetime.datetime.now()
 pubber = Publisher(client_id="nav-pubber")
 
 def publish_gps_status():
-	global prev_lat
-	global prev_long
-	#haversine
-	R = 6372.8 #earth's radius in kilometers
-	curr_long = agps_thread.data_stream.lon 
-	curr_lat = agps_thread.data_stream.lat
-	dLat = math.radians(curr_lat-prev_lat)
-	dLong = math.radians(curr_long-prev_long)
-	prev_lat = math.radians(prev_lat)
-	curr_lat = math.radians(curr_lat)
-	a = math.sin(dLat/2)**2 + math.cos(prev_lat) * math.cos(curr_lat) * math.sin(dLong / 2)**2
-	c = 2* math.asin(math.sqrt(a))
-	gps_total_dist = R * c
-		
+	global prev_pos
+	global current_pos
+	global total_distance
+	
+	current_pos = (agps_thread.data_stream.lat,agps_thread.data_stream.lon)
+	distance_traveled = haversine(current_pos,prev_pos, unit = UNIT.NAUTICAL_MILES)
+	total_distance += distance_traveled
+			
 	if (agps_thread.data_stream.speed != 'n/a'):
 		speed_kn = agps_thread.data_stream.speed * 1.94384449
 	else:
@@ -89,7 +84,7 @@ def publish_gps_status():
 		'longitude' : agps_thread.data_stream.lon,
 		'speed': speed_kn,
 		'course': agps_thread.data_stream.track,
-		'distance': gps_total_dist
+		'distance': total_distance
 
 	}
 
@@ -117,8 +112,7 @@ def publish_gps_status():
   
 	app_json = json.dumps(message)
 	pubber.publish("/status/gps",app_json)
-	prev_long = curr_long
-	prev_lat = curr_lat
+	prev_pos = current_pos
 
 def publish_compas_status():
 	mag_x, mag_y, mag_z = sensor.magnetic
