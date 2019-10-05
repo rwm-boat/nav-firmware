@@ -68,10 +68,10 @@ def publish_gps_status():
 	R = 6372.8 #earth's radius in kilometers
 	curr_long = agps_thread.data_stream.lon 
 	curr_lat = agps_thread.data_stream.lat
-	dLat = raidans(curr_lat-prev_lat)
-	dLong = radians(curr_long-prev_long)
-	prev_lat = radians(prev_lat)
-	curr_lat = radians(curr_lat)
+	dLat = math.raidans(curr_lat-prev_lat)
+	dLong = math.radians(curr_long-prev_long)
+	prev_lat = math.radians(prev_lat)
+	curr_lat = math.radians(curr_lat)
 	a = math.sin(dLat/2)**2 + math.cos(prev_lat) * math.cos(curr_lat) * math.sin(dLong / 2)**2
 	c = 2* math.asin(math.sqrt(a))
 	gps_total_dist = R * c
