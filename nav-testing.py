@@ -64,10 +64,10 @@ a = datetime.datetime.now()
 pubber = Publisher(client_id="nav-pubber")
 
 def publish_gps_status():
-        global prev_lat
-        global prev_long
+	global prev_lat
+	global prev_long
 	#haversine
-        R = 6372.8 #earth's radius in kilometers
+	R = 6372.8 #earth's radius in kilometers
 	curr_long = agps_thread.data_stream.lon 
 	curr_lat = agps_thread.data_stream.lat
 	dLat = math.radians(curr_lat-prev_lat)
