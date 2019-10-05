@@ -69,7 +69,7 @@ def publish_gps_status():
 	global prev_pos
 	global current_pos
 	global total_distance
-	if(haversine(current_pos,prev_pos, unit=Unit.NAUTICAL_MILES) > .5):
+	if(haversine(current_pos,prev_pos, unit=Unit.NAUTICAL_MILES) < .5):
 		if(agps_thread.data_stream.speed is not 'n/a' or agps_thread.data_stream.speed is not 0):
 			current_pos = (agps_thread.data_stream.lat,agps_thread.data_stream.lon)
 			distance_traveled = haversine(current_pos,prev_pos, unit=Unit.NAUTICAL_MILES)
@@ -114,7 +114,7 @@ def publish_gps_status():
 	
 		app_json = json.dumps(message)
 		pubber.publish("/status/gps",app_json)
-	prev_pos = current_pos
+		prev_pos = current_pos
 
 def publish_compas_status():
 	mag_x, mag_y, mag_z = sensor.magnetic
