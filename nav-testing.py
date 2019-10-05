@@ -18,8 +18,8 @@ agps_thread = AGPS3mechanism()  # Instantiate AGPS3 Mechanisms
 agps_thread.stream_data()  # From localhost (), or other hosts, by example, (host='gps.ddns.net')
 agps_thread.run_thread()  # Throttle time to sleep after an empty lookup, default '()' 0.2 two tenths of a second
 #initalizing previous GPS location for haversine
-prev_pos = 0
-current_pos = 0	
+prev_pos = (0,0)
+current_pos = (0,0)
 total_distance = 0
 # I2C connection:
 i2c = busio.I2C(board.SCL, board.SDA)
