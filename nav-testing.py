@@ -96,12 +96,12 @@ def publish_gps_status():
 	print(message)
 
 	led_on_message = {
-		'led_id' : 13,
+		'led_id' : 19,
 		'command' : 1
 	}
 
 	led_off_message = {
-		'led_id' : 13,
+		'led_id' : 19,
 		'command' : 0
 	}
 
