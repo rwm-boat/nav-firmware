@@ -91,6 +91,8 @@ def publish_gps_status():
 
 	}
 
+	print(message)
+
 	led_on_message = {
 		'led_id' : 13,
 		'command' : 1
