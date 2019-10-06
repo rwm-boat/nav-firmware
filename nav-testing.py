@@ -69,52 +69,55 @@ def publish_gps_status():
 	global prev_pos
 	global current_pos
 	global total_distance
-	if(haversine(current_pos,prev_pos, unit=Unit.NAUTICAL_MILES) < .1):
-		if(abs(current_pos[0] - prev_pos[0]) < 2):
-			if(agps_thread.data_stream.speed is not 'n/a' or agps_thread.data_stream.speed is not 0):
-				current_pos = (agps_thread.data_stream.lat,agps_thread.data_stream.lon)
-				distance_traveled = haversine(current_pos,prev_pos, unit=Unit.NAUTICAL_MILES)
-				total_distance = total_distance + distance_traveled
-				print(distance_traveled)
-			if (agps_thread.data_stream.speed != 'n/a' and agps_thread.data_stream.speed != 0):
-					speed_kn = agps_thread.data_stream.speed * 1.94384449
-			else:
-				speed_kn = 0
-				
-			message = {
-				'time' :  agps_thread.data_stream.time,
-				'latitude' : agps_thread.data_stream.lat,
-				'longitude' : agps_thread.data_stream.lon,
-				'speed': speed_kn,
-				'course': agps_thread.data_stream.track,
-				'distance': total_distance
-			}
+	# if(haversine(current_pos,prev_pos, unit=Unit.NAUTICAL_MILES) < .1):
+	# 	if(abs(current_pos[0] - prev_pos[0]) < 2):
+	# 		if(agps_thread.data_stream.speed is not 'n/a' or agps_thread.data_stream.speed is not 0):
+	# 			current_pos = (agps_thread.data_stream.lat,agps_thread.data_stream.lon)
+	# 			distance_traveled = haversine(current_pos,prev_pos, unit=Unit.NAUTICAL_MILES)
+	# 			total_distance = total_distance + distance_traveled
+	# 			print(distance_traveled)
+	current_pos = (agps_thread.data_stream.lat,agps_thread.data_stream.lon)
+	distance_traveled = haversine(current_pos,prev_pos, unit=Unit.NAUTICAL_MILES)
+	if(distance_traveled < .1):
+		if (agps_thread.data_stream.speed != 'n/a' and agps_thread.data_stream.speed != 0):
+    				speed_kn = agps_thread.data_stream.speed * 1.94384449
+		else:
+			speed_kn = 0
+			
+		message = {
+			'time' :  agps_thread.data_stream.time,
+			'latitude' : agps_thread.data_stream.lat,
+			'longitude' : agps_thread.data_stream.lon,
+			'speed': speed_kn,
+			'course': agps_thread.data_stream.track,
+			'distance': total_distance
+		}
 
-			print(message)
+		print(message)
 
-			led_on_message = {
-				'led_id' : 19,
-				'command' : 1
-			}
+		led_on_message = {
+			'led_id' : 19,
+			'command' : 1
+		}
 
-			led_off_message = {
-				'led_id' : 19,
-				'command' : 0
-			}
+		led_off_message = {
+			'led_id' : 19,
+			'command' : 0
+		}
 
-			# check to see if the gps has a fix
+		# check to see if the gps has a fix
 
-			if(agps_thread.data_stream.time == 'n/a'):
-				app_json = json.dumps(led_off_message)
-				pubber.publish("/command/led",app_json)
+		if(agps_thread.data_stream.time == 'n/a'):
+			app_json = json.dumps(led_off_message)
+			pubber.publish("/command/led",app_json)
 
-			else:
-				app_json = json.dumps(led_on_message)
-				pubber.publish("/command/led",app_json)
-		
-			app_json = json.dumps(message)
-			pubber.publish("/status/gps",app_json)
-			prev_pos = current_pos
+		else:
+			app_json = json.dumps(led_on_message)
+			pubber.publish("/command/led",app_json)
+
+		app_json = json.dumps(message)
+		pubber.publish("/status/gps",app_json)
+		prev_pos = current_pos
 
 	def publish_compas_status():
 		mag_x, mag_y, mag_z = sensor.magnetic
