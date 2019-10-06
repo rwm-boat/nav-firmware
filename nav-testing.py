@@ -88,11 +88,13 @@ def publish_gps_status():
 				if(prev_pos == (0,0)):
 					prev_pos = current_pos
 				distance_traveled = haversine(current_pos,prev_pos, unit=Unit.NAUTICAL_MILES)	
-				total_distance += distance_traveled
+				
 				print(distance_traveled)
 	else:
 		speed_kn = 0
+
 	if(distance_traveled < 0.1):
+    	total_distance += distance_traveled
 		message = {
 			'time' :  agps_thread.data_stream.time,
 			'latitude' : agps_thread.data_stream.lat,
