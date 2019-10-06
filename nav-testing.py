@@ -78,6 +78,7 @@ def publish_gps_status():
 	# 			print(distance_traveled)
 	current_pos = (agps_thread.data_stream.lat,agps_thread.data_stream.lon)
 	distance_traveled = haversine(current_pos,prev_pos, unit=Unit.NAUTICAL_MILES)
+	print(distance_traveled)
 	if(distance_traveled < .1):
 		if (agps_thread.data_stream.speed != 'n/a' and agps_thread.data_stream.speed != 0):
     				speed_kn = agps_thread.data_stream.speed * 1.94384449
