@@ -69,7 +69,7 @@ def publish_gps_status():
 	global prev_pos
 	global current_pos
 	global total_distance
-	if(1 > current_pos[1] - prev_pos[1] > 1):
+	if(haversine(current_pos,prev_pos, unit=Unit.NAUTICAL_MILES) < .1):
 		if(agps_thread.data_stream.speed is not 'n/a' or agps_thread.data_stream.speed is not 0):
 			if(prev_pos is not 0):
 				current_pos = (agps_thread.data_stream.lat,agps_thread.data_stream.lon)
