@@ -120,18 +120,18 @@ def publish_gps_status():
 		prev_pos = current_pos
 
 def publish_compas_status():
-		mag_x, mag_y, mag_z = sensor.magnetic
-		temp = sensor.temperature
-		compass = round(-(24 + numpy.degrees(numpy.arctan2(mag_x, mag_y))))
-		if compass < 0:
-			compass = 360 + compass
-		screencompass = compass
-		message = {
-			'temp' : temp,
-			'compass': compass,
-		}
-		app_json = json.dumps(message)
-		pubber.publish("/status/compass",app_json)
+	mag_x, mag_y, mag_z = sensor.magnetic
+	temp = sensor.temperature
+	compass = round(-(24 + numpy.degrees(numpy.arctan2(mag_x, mag_y))))
+	if compass < 0:
+		compass = 360 + compass
+	screencompass = compass
+	message = {
+		'temp' : temp,
+		'compass': compass,
+	}
+	app_json = json.dumps(message)
+	pubber.publish("/status/compass",app_json)
 
 def publish_internal_compass_status():
 
@@ -159,17 +159,6 @@ def publish_internal_compass_status():
 	if heading < 0:
 		heading += 360
 
-	# # #Calculate the new tilt compensated values
-	#  magXcomp = MAGx*math.cos(pitch)+MAGz*math.sin(pitch)
-
-	#  magYcomp = MAGx*math.sin(roll)*math.sin(pitch)+MAGy*math.cos(roll)-MAGz*math.sin(roll)*math.cos(pitch)   #LSM9DS0
-
-	# #Calculate tilt compensated heading
-	# tiltCompensatedHeading = 180 * math.atan2(magYcomp,magXcomp)/M_PI
-
-	# if tiltCompensatedHeading < 0:
-	# 			tiltCompensatedHeading += 360
-
 	message = {
 				'heading': heading
 	}
@@ -195,9 +184,6 @@ def on_led_command(client, userdata, message):
 	except Exception:
 		 pass
 		# print("LED FAILTURE")
-
-
-
 
 # Setup Subscriber to change LED
 default_subscriptions = {
