@@ -94,7 +94,7 @@ def publish_gps_status():
 		speed_kn = 0
 
 	if(distance_traveled < 0.1):
-    	total_distance += distance_traveled
+		total_distance += distance_traveled
 		message = {
 			'time' :  agps_thread.data_stream.time,
 			'latitude' : agps_thread.data_stream.lat,
