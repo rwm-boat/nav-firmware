@@ -21,6 +21,7 @@ agps_thread.run_thread()  # Throttle time to sleep after an empty lookup, defaul
 prev_pos = (0,0)
 current_pos = (0,0)
 total_distance = 0
+distance_traveled = 0
 # I2C connection:
 i2c = busio.I2C(board.SCL, board.SDA)
 sensor = adafruit_lsm9ds0.LSM9DS0_I2C(i2c)
@@ -69,6 +70,7 @@ def publish_gps_status():
 	global prev_pos
 	global current_pos
 	global total_distance
+	global distance_traveled
 	# if(haversine(current_pos,prev_pos, unit=Unit.NAUTICAL_MILES) < .1):
 	# 	if(abs(current_pos[0] - prev_pos[0]) < 2):
 	# 		if(agps_thread.data_stream.speed is not 'n/a' or agps_thread.data_stream.speed is not 0):
@@ -76,15 +78,19 @@ def publish_gps_status():
 	# 			distance_traveled = haversine(current_pos,prev_pos, unit=Unit.NAUTICAL_MILES)
 	# 			total_distance = total_distance + distance_traveled
 	# 			print(distance_traveled)
-	current_pos = (agps_thread.data_stream.lat,agps_thread.data_stream.lon)
-	distance_traveled = haversine(current_pos,prev_pos, unit=Unit.NAUTICAL_MILES)
-	print(distance_traveled)
-	if(distance_traveled < .1):
-		if (agps_thread.data_stream.speed != 'n/a' and agps_thread.data_stream.speed != 0):
-    				speed_kn = agps_thread.data_stream.speed * 1.94384449
-		else:
-			speed_kn = 0
-			
+	# current_pos = (agps_thread.data_stream.lat,agps_thread.data_stream.lon)
+	# distance_traveled = haversine(current_pos,prev_pos, unit=Unit.NAUTICAL_MILES)
+	# print(distance_traveled)
+	# if(distance_traveled < .1):
+	if (agps_thread.data_stream.speed != 'n/a' and agps_thread.data_stream.speed != 0):
+				speed_kn = agps_thread.data_stream.speed * 1.94384449
+				current_pos = (agps_thread.data_stream.lat,agps_thread.data_stream.lon)
+				if(prev_pos == (0,0)):
+					prev_pos = current_pos
+				distance_traveled = haversine(current_pos,prev_pos, unit=Unit.NAUTICAL_MILES)	
+	else:
+		speed_kn = 0
+	if(distance_traveled < 0.1):
 		message = {
 			'time' :  agps_thread.data_stream.time,
 			'latitude' : agps_thread.data_stream.lat,
