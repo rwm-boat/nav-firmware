@@ -119,7 +119,7 @@ def publish_gps_status():
 		pubber.publish("/status/gps",app_json)
 		prev_pos = current_pos
 
-	def publish_compas_status():
+def publish_compas_status():
 		mag_x, mag_y, mag_z = sensor.magnetic
 		temp = sensor.temperature
 		compass = round(-(24 + numpy.degrees(numpy.arctan2(mag_x, mag_y))))
