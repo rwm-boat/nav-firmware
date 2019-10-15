@@ -181,17 +181,17 @@ def on_led_command(client, userdata, message):
 	led_selector = obj['led_id']
 	led_opp = obj['command']
 	try:
-	    GPIO.setmode(GPIO.BCM)
-	    GPIO.setwarnings(False)
-	    GPIO.setup(19,GPIO.OUT) # BLUE
-	    GPIO.setup(26,GPIO.OUT) # WHITE
-            GPIO.setup(26,GPIO.HIGH)
-	    GPIO.setup(13,GPIO.OUT) # GREEN
-            GPIO.setup(13,GPIO.OUT)
+		GPIO.setmode(GPIO.BCM)
+		GPIO.setwarnings(False)
+		GPIO.setup(19,GPIO.OUT) # BLUE
+		GPIO.setup(26,GPIO.OUT) # WHITE
+		GPIO.setup(26,GPIO.HIGH)
+		GPIO.setup(13,GPIO.OUT) # GREEN
+		GPIO.setup(13,GPIO.OUT)
 		
-	    if(led_opp == 1):
-	        GPIO.output(led_selector,GPIO.HIGH)
-	    else:
+		if(led_opp == 1):
+			GPIO.output(led_selector,GPIO.HIGH)
+		else:
 		GPIO.output(led_selector,GPIO.LOW)
 
 	except Exception:
