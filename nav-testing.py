@@ -89,7 +89,7 @@ def publish_gps_status():
 					prev_pos = current_pos
 				distance_traveled = haversine(current_pos,prev_pos, unit=Unit.NAUTICAL_MILES)	
 				
-				print(distance_traveled)
+	#			print(distance_traveled)
 	else:
 		speed_kn = 0
 
@@ -181,16 +181,18 @@ def on_led_command(client, userdata, message):
 	led_selector = obj['led_id']
 	led_opp = obj['command']
 	try:
-		GPIO.setmode(GPIO.BCM)
-		GPIO.setwarnings(False)
-		GPIO.setup(19,GPIO.OUT) # BLUE
-		GPIO.setup(26,GPIO.OUT) # WHITE
-		GPIO.setup(13,GPIO.OUT) # GREEN
+	    GPIO.setmode(GPIO.BCM)
+	    GPIO.setwarnings(False)
+	    GPIO.setup(19,GPIO.OUT) # BLUE
+	    GPIO.setup(26,GPIO.OUT) # WHITE
+            GPIO.setup(26,GPIO.HIGH)
+	    GPIO.setup(13,GPIO.OUT) # GREEN
+            GPIO.setup(13,GPIO.OUT)
 		
-		if(led_opp == 1):
-			GPIO.output(led_selector,GPIO.HIGH)
-		else:
-			GPIO.output(led_selector,GPIO.LOW)
+	    if(led_opp == 1):
+	        GPIO.output(led_selector,GPIO.HIGH)
+	    else:
+		GPIO.output(led_selector,GPIO.LOW)
 
 	except Exception:
 		 pass
