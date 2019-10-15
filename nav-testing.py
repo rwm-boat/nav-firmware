@@ -185,12 +185,13 @@ def on_led_command(client, userdata, message):
 		GPIO.setwarnings(False)
 		GPIO.setup(19,GPIO.OUT) # BLUE
 		GPIO.setup(26,GPIO.OUT) # WHITE
-		GPIO.setup(26,GPIO.HIGH)
 		GPIO.setup(13,GPIO.OUT) # GREEN
-		GPIO.setup(13,GPIO.OUT)
+		
 		
 		if(led_opp == 1):
 			GPIO.output(led_selector,GPIO.HIGH)
+			GPIO.output(26,GPIO.HIGH)
+			GPIO.output(13,GPIO.HIGH)
 		else:
 			GPIO.output(led_selector,GPIO.LOW)
 
