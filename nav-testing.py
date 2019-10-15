@@ -192,7 +192,7 @@ def on_led_command(client, userdata, message):
 		if(led_opp == 1):
 			GPIO.output(led_selector,GPIO.HIGH)
 		else:
-		GPIO.output(led_selector,GPIO.LOW)
+			GPIO.output(led_selector,GPIO.LOW)
 
 	except Exception:
 		 pass
