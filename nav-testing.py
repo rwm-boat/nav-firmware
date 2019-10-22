@@ -71,17 +71,8 @@ def publish_gps_status():
 	global current_pos
 	global total_distance
 	global distance_traveled
-	# if(haversine(current_pos,prev_pos, unit=Unit.NAUTICAL_MILES) < .1):
-	# 	if(abs(current_pos[0] - prev_pos[0]) < 2):
-	# 		if(agps_thread.data_stream.speed is not 'n/a' or agps_thread.data_stream.speed is not 0):
-	# 			current_pos = (agps_thread.data_stream.lat,agps_thread.data_stream.lon)
-	# 			distance_traveled = haversine(current_pos,prev_pos, unit=Unit.NAUTICAL_MILES)
-	# 			total_distance = total_distance + distance_traveled
-	# 			print(distance_traveled)
-	# current_pos = (agps_thread.data_stream.lat,agps_thread.data_stream.lon)
-	# distance_traveled = haversine(current_pos,prev_pos, unit=Unit.NAUTICAL_MILES)
-	# print(distance_traveled)
-	# if(distance_traveled < .1):
+
+	# determine if real values are being produced, convert to knots, then calculate distance traveled
 	if (agps_thread.data_stream.speed != 'n/a' and agps_thread.data_stream.speed != 0):
 				speed_kn = agps_thread.data_stream.speed * 1.94384449
 				current_pos = (agps_thread.data_stream.lat,agps_thread.data_stream.lon)
@@ -93,6 +84,7 @@ def publish_gps_status():
 	else:
 		speed_kn = 0
 
+	#if gps is returning real values, publish values
 	if(distance_traveled < 0.1):
 		total_distance += distance_traveled
 		message = {
@@ -116,8 +108,7 @@ def publish_gps_status():
 			'command' : 0
 		}
 
-		# check to see if the gps has a fix
-
+		# check to see if the gps has a fix, if it does, turn on LED's
 		if(agps_thread.data_stream.time == 'n/a'):
 			app_json = json.dumps(led_off_message)
 			pubber.publish("/command/led",app_json)
@@ -129,6 +120,7 @@ def publish_gps_status():
 		app_json = json.dumps(message)
 		pubber.publish("/status/gps",app_json)
 		prev_pos = current_pos
+
 
 def publish_compas_status():
 	mag_x, mag_y, mag_z = sensor.magnetic
@@ -205,11 +197,14 @@ subber = Subscriber(client_id="led_actuator", broker_ip="192.168.1.170", default
 thread = Thread(target=subber.listen)
 thread.start()
 
+thread = Thread(target=publish_gps_status)
+thread.start()
+
 #subber.listen()
 
 try: 
 	while True:
-		publish_gps_status()
+		#publish_gps_status()
 		publish_compas_status()
 		publish_internal_compass_status()
 		time.sleep(.1)
