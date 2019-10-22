@@ -200,14 +200,11 @@ subber = Subscriber(client_id="led_actuator", broker_ip="192.168.1.170", default
 thread = Thread(target=subber.listen)
 thread.start()
 
-thread = Thread(target=publish_gps_status)
-thread.start()
-
 #subber.listen()
 
 try: 
 	while True:
-		#publish_gps_status()
+		publish_gps_status()
 		publish_compas_status()
 		publish_internal_compass_status()
 		time.sleep(.1)
