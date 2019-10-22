@@ -80,7 +80,7 @@ def publish_gps_status():
 					prev_pos = current_pos
 				distance_traveled = haversine(current_pos,prev_pos, unit=Unit.NAUTICAL_MILES)	
 				
-				print(distance_traveled)
+	#			print(distance_traveled)
 	else:
 		speed_kn = 0
 
@@ -179,8 +179,11 @@ def on_led_command(client, userdata, message):
 		GPIO.setup(26,GPIO.OUT) # WHITE
 		GPIO.setup(13,GPIO.OUT) # GREEN
 		
+		
 		if(led_opp == 1):
 			GPIO.output(led_selector,GPIO.HIGH)
+			GPIO.output(26,GPIO.HIGH)
+			GPIO.output(13,GPIO.HIGH)
 		else:
 			GPIO.output(led_selector,GPIO.LOW)
 
