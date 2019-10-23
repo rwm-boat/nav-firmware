@@ -22,8 +22,7 @@ prev_pos = (0,0)
 current_pos = (0,0)
 total_distance = 0
 distance_traveled = 0
-# I2C connection:
-
+# I2C connection if possible
 try:
 	i2c = busio.I2C(board.SCL, board.SDA)
 	sensor = adafruit_lsm9ds0.LSM9DS0_I2C(i2c)
@@ -31,7 +30,6 @@ except Exception:
 	print("no 9dof imu")
 
 #internal IMU setup
-
 # If the IMU is upside down (Skull logo facing up), change this value to 1
 IMU_UPSIDE_DOWN = 0
 
@@ -40,11 +38,7 @@ M_PI = 3.14159265358979323846
 G_GAIN = 0.070  # [deg/s/LSB]  If you change the dps for gyro, you need to update this value accordingly
 AA =  0.40      # Complementary filter constant
 
-
-################# Compass Calibration values ############
-# Use calibrateBerryIMU.py to get calibration values 
-# Calibrating the compass isnt mandatory, however a calibrated 
-# compass will result in a more accurate heading value.
+#internal compass calibration values
 
 magXmin =  0
 magYmin =  0
@@ -67,7 +61,7 @@ kalmanY = 0.0
 
 a = datetime.datetime.now()
 
-# Setup Pubber
+# Setup publisher
 pubber = Publisher(client_id="nav-pubber")
 
 def publish_gps_status():
@@ -83,8 +77,6 @@ def publish_gps_status():
 				if(prev_pos == (0,0)):
 					prev_pos = current_pos
 				distance_traveled = haversine(current_pos,prev_pos, unit=Unit.NAUTICAL_MILES)	
-				
-	#			print(distance_traveled)
 	else:
 		speed_kn = 0
 
@@ -99,9 +91,7 @@ def publish_gps_status():
 			'course': agps_thread.data_stream.track,
 			'distance': total_distance
 		}
-
 		print(message)
-
 		led_on_message = {
 			'led_id' : 19,
 			'command' : 1
@@ -142,7 +132,7 @@ def publish_compas_status():
 		app_json = json.dumps(message)
 		pubber.publish("/status/compass",app_json)
 	except Exception:
-		print("no internal compass")
+		print("no external compass")
 
 	
 
@@ -198,8 +188,7 @@ def on_led_command(client, userdata, message):
 			GPIO.output(led_selector,GPIO.LOW)
 
 	except Exception:
-		 pass
-		# print("LED FAILTURE")
+		print("Status LED's not plugged in")
 
 # Setup Subscriber to change LED
 default_subscriptions = {
@@ -207,19 +196,20 @@ default_subscriptions = {
 }
 subber = Subscriber(client_id="led_actuator", broker_ip="192.168.1.170", default_subscriptions=default_subscriptions)
 
+# new thread for the subscriber
 thread = Thread(target=subber.listen)
 thread.start()
 
-#subber.listen()
-
 try: 
 	while True:
+		#publish all boat values at 10hz interval
 		publish_gps_status()
 		publish_compas_status()
 		publish_internal_compass_status()
 		time.sleep(.1)
+
+# turn off all leds when program exits		
 except KeyboardInterrupt:
-	# turn off all leds when program exits
 	GPIO.output(13,GPIO.LOW)
 	GPIO.output(19,GPIO.LOW)
 	GPIO.output(26,GPIO.LOW)
