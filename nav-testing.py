@@ -132,9 +132,8 @@ def publish_gps_status():
 
 def calibrate_external_compass():
 	mag_x, mag_y, mag_z = sensor.magnetic
-	print(mag_x + " : " + mag_y)
+	print(str(mag_x) + " : " + str(mag_y))
 	
-
 	global ext_magXmax
 	global ext_magXmin
 	global ext_magYmax 
