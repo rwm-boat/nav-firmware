@@ -137,6 +137,7 @@ def calibrate_external_compass():
 
 	out_file = open("compass_calibration.txt", "a")
 	out_file.write(str(mag_x) + "," + str(mag_y))
+	out_file.write("\n")
 	
 	global ext_magXmax
 	global ext_magXmin
