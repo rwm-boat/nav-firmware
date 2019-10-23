@@ -123,6 +123,16 @@ def publish_gps_status():
 		pubber.publish("/status/gps",app_json)
 		prev_pos = current_pos
 
+def calibrate_external_compass():
+	mag_x, mag_y, mag_z = sensor.magnetic
+	if(mag_x > e_magXmax): mag_x = e_magXmax
+	if(mag_x < e_magXmin): mag_x = e_magXmin
+	if(mag_y > e_magYmax): mag_xy = e_magYmax
+	if(mag_y < e_magYmin): mag_y = e_magYmin
+	print("X Max: " + e_magXmax)
+	print("Y Max: " + e_magYmax)
+	print("X Min: " + e_magXmin)
+	print("Y Min: " + e_magXmin)
 
 def publish_compas_status():
 
@@ -130,9 +140,6 @@ def publish_compas_status():
 		mag_x, mag_y, mag_z = sensor.magnetic
 		temp = sensor.temperature
 
-		#compass = round(-(24 + numpy.degrees(numpy.arctan2(mag_x, mag_y))))
-	
-		# load values
 		e_MAGX = mag_x
 		e_MAGY = mag_y
 		# Apply compass calibration    
@@ -143,11 +150,6 @@ def publish_compas_status():
 		#Only have our heading between 0 and 360
 		if heading < 0:
 			heading += 360
-
-		# if compass < 0:
-		# 	compass = 360 + compass
-		# screencompass = compass
-
 		message = {
 			'temp' : temp,
 			'compass': heading,
@@ -216,10 +218,11 @@ thread.start()
 
 try: 
 	while True:
-		#publish all boat values at 10hz interval
-		publish_gps_status()
-		publish_compas_status()
-		publish_internal_compass_status()
+		# #publish all boat values at 10hz interval
+		# publish_gps_status()
+		# publish_compas_status()
+		# publish_internal_compass_status()
+		calibrate_external_compass()
 		time.sleep(.1)
 
 # turn off all leds when program exits		
