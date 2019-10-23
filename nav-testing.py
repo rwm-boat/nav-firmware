@@ -64,6 +64,8 @@ ext_magXmin = 0
 ext_magYmin = 0
 ext_magXmax = 0
 ext_magYmax = 0
+ext_magZmax = 0
+ext_magZmin = 0
 
 
 IMU.detectIMU()     #Detect if BerryIMUv1 or BerryIMUv2 is connected.
@@ -136,25 +138,26 @@ def publish_gps_status():
 def calibrate_external_compass():
 	mag_x, mag_y, mag_z = sensor.magnetic
 	print(str(mag_x) + "," + str(mag_y))
-
-	out_file = open("compass_calibration.txt", "a")
-	out_file.write(str(mag_x) + "," + str(mag_y))
-	out_file.write("\n")
 	
 	global ext_magXmax
 	global ext_magXmin
 	global ext_magYmax 
 	global ext_magYmin 
+	global ext_magZmin
+	global ext_magZmax
 
 	if(mag_x > ext_magXmax): ext_magXmax = mag_x
 	if(mag_x < ext_magXmin): ext_magXmin = mag_x
 	if(mag_y > ext_magYmax): ext_magYmax = mag_y
 	if(mag_y < ext_magYmin): ext_magYmin = mag_y
+	if(mag_z > ext_magZmax): ext_magZmax = mag_z
+	if(mag_z < ext_magZmin): ext_magZmin = mag_z
 
-	# print("X Max: " + str(ext_magXmax))
-	# print("Y Max: " + str(ext_magYmax))
-	# print("X Min: " + str(ext_magXmin))
-	# print("Y Min: " + str(ext_magYmin))
+	print("X Max: " + str(ext_magXmax))
+	print("Y Max: " + str(ext_magYmax))
+	print("X Min: " + str(ext_magXmin))
+	print("Y Min: " + str(ext_magYmin))
+	
 
 def publish_compas_status():
 
