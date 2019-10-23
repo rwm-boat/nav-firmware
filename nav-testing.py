@@ -133,7 +133,7 @@ def publish_gps_status():
 
 def calibrate_external_compass():
 	mag_x, mag_y, mag_z = sensor.magnetic
-	print(str(mag_x) + " : " + str(mag_y))
+	print(str(mag_x) + "," + str(mag_y))
 	
 	global ext_magXmax
 	global ext_magXmin
@@ -145,10 +145,10 @@ def calibrate_external_compass():
 	if(mag_y > ext_magYmax): ext_magYmax = mag_y
 	if(mag_y < ext_magYmin): ext_magYmin = mag_y
 
-	print("X Max: " + str(ext_magXmax))
-	print("Y Max: " + str(ext_magYmax))
-	print("X Min: " + str(ext_magXmin))
-	print("Y Min: " + str(ext_magYmin))
+	# print("X Max: " + str(ext_magXmax))
+	# print("Y Max: " + str(ext_magYmax))
+	# print("X Min: " + str(ext_magXmin))
+	# print("Y Min: " + str(ext_magYmin))
 
 def publish_compas_status():
 
@@ -250,10 +250,10 @@ thread.start()
 try: 
 	while True:
 		#publish all boat values at 10hz interval
-		publish_gps_status()
-		publish_compas_status()
-		publish_internal_compass_status()
-		#calibrate_external_compass()
+		# publish_gps_status()
+		# publish_compas_status()
+		# publish_internal_compass_status()
+		calibrate_external_compass()
 		time.sleep(.1)
 
 # turn off all leds when program exits		
