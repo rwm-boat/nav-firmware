@@ -49,12 +49,11 @@ magZmax =  0
 
 #external compass hard iron distortion calibration values
 
-e_magXmin = 0
-e_magYmin = 0
-e_magZmin = 0
-e_magXmax = 0
-e_magYmax = 0
-e_magZmax = 0
+e_magXmin = -0.2175
+e_magYmin = -0.1296
+e_magXmax = 0.22072
+e_magYmax = 0.23488
+
 
 #calibration function values
 ext_magXmin = 0
@@ -233,11 +232,11 @@ thread.start()
 
 try: 
 	while True:
-		# #publish all boat values at 10hz interval
-		# publish_gps_status()
-		# publish_compas_status()
-		# publish_internal_compass_status()
-		calibrate_external_compass()
+		#publish all boat values at 10hz interval
+		publish_gps_status()
+		publish_compas_status()
+		publish_internal_compass_status()
+		#calibrate_external_compass()
 		time.sleep(.1)
 
 # turn off all leds when program exits		
