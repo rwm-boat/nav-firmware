@@ -13,6 +13,8 @@ import IMU
 import datetime
 import math
 from haversine import haversine,Unit
+
+
 # GPS Setup
 agps_thread = AGPS3mechanism()  # Instantiate AGPS3 Mechanisms
 agps_thread.stream_data()  # From localhost (), or other hosts, by example, (host='gps.ddns.net')
@@ -153,14 +155,28 @@ def publish_compas_status():
 	try:
 		mag_x, mag_y, mag_z = sensor.magnetic
 		temp = sensor.temperature
+		
+		# Apply hard iron distortion calibration 
+		offset_x = (e_magXmax + e_magXmin) / 2
+		offset_y = (e_magYmax + e_magYmin) / 2
 
-		e_MAGX = mag_x
-		e_MAGY = mag_y
-		# Apply compass calibration    
-		e_MAGX -= (e_magXmin + e_magXmax) /2 
-		e_MAGY -= (e_magYmin + e_magYmax) /2 
+		corrected_x = mag_x - offset_x
+		corrected_y = mag_y - offset_y
+
+		# Apply soft iron compass calibration
+		avg_delta_x = (e_magXmax - e_magXmin) / 2
+		avg_delta_y = (e_magYmax - e_magYmin) / 2
+		avg_delta = (avg_delta_x + avg_delta_y)/2
+
+		scale_x = avg_delta / avg_delta_x
+		scale_y = avg_delta/avg_delta_y
+
+		corrected_x = (mag_x - offset_x) * scale_x
+		corrected_y = (mag_y - offset_y) * scale_y
+
 		#Calculate heading
-		heading = 180 * math.atan2(e_MAGY,e_MAGX)/M_PI
+		heading = 180 * math.atan2(corrected_x,corrected_y)/M_PI
+
 		#Only have our heading between 0 and 360
 		if heading < 0:
 			heading += 360
