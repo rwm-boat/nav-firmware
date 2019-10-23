@@ -126,20 +126,20 @@ def publish_gps_status():
 
 def publish_compas_status():
 
-
+	try:
 		mag_x, mag_y, mag_z = sensor.magnetic
 		temp = sensor.temperature
 
 		#compass = round(-(24 + numpy.degrees(numpy.arctan2(mag_x, mag_y))))
-
+	
 		# load values
-		e_MagX = mag_x
-		e_magY = mag_y
+		e_MAGX = mag_x
+		e_MAGY = mag_y
 		# Apply compass calibration    
-		e_MAGx -= (e_magXmin + e_magXmax) /2 
-		e_MAGy -= (e_magYmin + e_magYmax) /2 
+		e_MAGX -= (e_magXmin + e_magXmax) /2 
+		e_MAGY -= (e_magYmin + e_magYmax) /2 
 		#Calculate heading
-		heading = 180 * math.atan2(e_MAGy,e_MAGx)/M_PI
+		heading = 180 * math.atan2(e_MAGY,e_MAGX)/M_PI
 		#Only have our heading between 0 and 360
 		if heading < 0:
 			heading += 360
@@ -155,6 +155,8 @@ def publish_compas_status():
 		app_json = json.dumps(message)
 		pubber.publish("/status/compass",app_json)
 
+	except Exception:
+		print("no external imu")
 def publish_internal_compass_status():
 
 	#Read the accelerometer,gyroscope and magnetometer values
