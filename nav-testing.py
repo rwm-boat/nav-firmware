@@ -147,7 +147,7 @@ def calibrate_external_compass():
 	print("X Max: " + str(ext_magXmax))
 	print("Y Max: " + str(ext_magYmax))
 	print("X Min: " + str(ext_magXmin))
-	print("Y Min: " + str(ext_magXmin))
+	print("Y Min: " + str(ext_magYmin))
 
 def publish_compas_status():
 
