@@ -56,6 +56,13 @@ e_magXmax = 0
 e_magYmax = 0
 e_magZmax = 0
 
+#calibration function values
+ext_magXmin = 0
+ext_magYmin = 0
+ext_magXmax = 0
+ext_magYmax = 0
+
+
 IMU.detectIMU()     #Detect if BerryIMUv1 or BerryIMUv2 is connected.
 IMU.initIMU()       #Initialise the accelerometer, gyroscope and compass
 
@@ -126,20 +133,20 @@ def publish_gps_status():
 def calibrate_external_compass():
 	mag_x, mag_y, mag_z = sensor.magnetic
 
-	e_magXmax = 32767
-	e_magXmin = 32767
-	e_magYmax = 32767
-	e_magYmin = 32767
+	global ext_magXmax
+	global ext_magXmin
+	global ext_magYmax 
+	global ext_magYmin 
 
-	if(mag_x > e_magXmax): e_magXmax = mag_x
-	if(mag_x < e_magXmin): e_magXmin = mag_x
-	if(mag_y > e_magYmax): e_magYmax = mag_y
-	if(mag_y < e_magYmin): e_magYmin = mag_y
+	if(mag_x > ext_magXmax): ext_magXmax = mag_x
+	if(mag_x < ext_magXmin): ext_magXmin = mag_x
+	if(mag_y > ext_magYmax): ext_magYmax = mag_y
+	if(mag_y < ext_magYmin): ext_magYmin = mag_y
 
-	print("X Max: " + str(e_magXmax))
-	print("Y Max: " + str(e_magYmax))
-	print("X Min: " + str(e_magXmin))
-	print("Y Min: " + str(e_magXmin))
+	print("X Max: " + str(ext_magXmax))
+	print("Y Max: " + str(ext_magYmax))
+	print("X Min: " + str(ext_magXmin))
+	print("Y Min: " + str(ext_magXmin))
 
 def publish_compas_status():
 
