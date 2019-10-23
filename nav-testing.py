@@ -164,6 +164,9 @@ def publish_compas_status():
 		#Only have our heading between 0 and 360
 		if heading < 0:
 			heading += 360
+			
+		heading -= 90
+
 		message = {
 			'temp' : temp,
 			'compass': heading,
