@@ -126,16 +126,16 @@ def publish_gps_status():
 def calibrate_external_compass():
 	mag_x, mag_y, mag_z = sensor.magnetic
 
-	e_magXmax = 0
-	e_magXmin = 0
-	e_magYmax = 0
-	e_magYmin = 0
+	e_magXmax = 32767
+	e_magXmin = 32767
+	e_magYmax = 32767
+	e_magYmin = 32767
 
 	if(mag_x > e_magXmax): e_magXmax = mag_x
 	if(mag_x < e_magXmin): e_magXmin = mag_x
 	if(mag_y > e_magYmax): e_magYmax = mag_y
 	if(mag_y < e_magYmin): e_magYmin = mag_y
-	
+
 	print("X Max: " + str(e_magXmax))
 	print("Y Max: " + str(e_magYmax))
 	print("X Min: " + str(e_magXmin))
