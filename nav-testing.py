@@ -198,12 +198,18 @@ def publish_compas_status():
 		out_file.write(str(corrected_x) + "," + str(corrected_y) + "," + str(corrected_z))
 		out_file.write("\n")
 
+		
+
 		#Calculate heading
 		heading = 180 * math.atan2(corrected_x,corrected_y)/M_PI
 
 		#Only have our heading between 0 and 360
 		if heading < 0:
 			heading += 360
+
+		out_file = open("course_comparison.txt", "a")
+		out_file.write(str(heading) + "," + str(agps_thread.data_stream.track))
+		out_file.write("\n")
 
 		message = {
 			'temp' : temp,
