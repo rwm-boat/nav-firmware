@@ -47,6 +47,14 @@ magXmax =  0
 magYmax =  0
 magZmax =  0
 
+#external compass hard iron distortion calibration values
+
+e_magXmin = 0
+e_magYmin = 0
+e_magZmin = 0
+e_magXmax = 0
+e_magYmax = 0
+e_magZmax = 0
 
 IMU.detectIMU()     #Detect if BerryIMUv1 or BerryIMUv2 is connected.
 IMU.initIMU()       #Initialise the accelerometer, gyroscope and compass
@@ -121,13 +129,28 @@ def publish_compas_status():
 	try:
 		mag_x, mag_y, mag_z = sensor.magnetic
 		temp = sensor.temperature
-		compass = round(-(24 + numpy.degrees(numpy.arctan2(mag_x, mag_y))))
-		if compass < 0:
-			compass = 360 + compass
-		screencompass = compass
+
+		#compass = round(-(24 + numpy.degrees(numpy.arctan2(mag_x, mag_y))))
+
+		# load values
+		e_MagX = mag_x
+		e_magY = mag_y
+		# Apply compass calibration    
+		e_MAGx -= (e_magXmin + e_magXmax) /2 
+		e_MAGy -= (e_magYmin + e_magYmax) /2 
+		#Calculate heading
+		heading = 180 * math.atan2(e_MAGy,e_MAGx)/M_PI
+		#Only have our heading between 0 and 360
+		if heading < 0:
+			heading += 360
+
+		# if compass < 0:
+		# 	compass = 360 + compass
+		# screencompass = compass
+
 		message = {
 			'temp' : temp,
-			'compass': compass,
+			'compass': heading,
 		}
 		app_json = json.dumps(message)
 		pubber.publish("/status/compass",app_json)
@@ -139,21 +162,13 @@ def publish_compas_status():
 def publish_internal_compass_status():
 
 	#Read the accelerometer,gyroscope and magnetometer values
-	ACCx = IMU.readACCx()
-	ACCy = IMU.readACCy()
-	ACCz = IMU.readACCz()
-	GYRx = IMU.readGYRx()
-	GYRy = IMU.readGYRy()
-	GYRz = IMU.readGYRz()
+
 	MAGx = IMU.readMAGx()
 	MAGy = IMU.readMAGy()
-	MAGz = IMU.readMAGz()
 	
-
 	#Apply compass calibration    
 	MAGx -= (magXmin + magXmax) /2 
 	MAGy -= (magYmin + magYmax) /2 
-	MAGz -= (magZmin + magZmax) /2 
  
 	#Calculate heading
 	heading = 180 * math.atan2(MAGy,MAGx)/M_PI
