@@ -126,7 +126,7 @@ def publish_gps_status():
 
 def publish_compas_status():
 
-	try:
+
 		mag_x, mag_y, mag_z = sensor.magnetic
 		temp = sensor.temperature
 
@@ -154,10 +154,6 @@ def publish_compas_status():
 		}
 		app_json = json.dumps(message)
 		pubber.publish("/status/compass",app_json)
-	except Exception:
-		print("no external compass")
-
-	
 
 def publish_internal_compass_status():
 
