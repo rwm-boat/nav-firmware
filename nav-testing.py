@@ -53,8 +53,10 @@ magZmax =  0
 
 e_magXmin = -0.2175
 e_magYmin = -0.1296
+e_magZmin = 0
 e_magXmax = 0.22072
 e_magYmax = 0.23488
+e_magZmax = 0
 
 
 #calibration function values
@@ -163,20 +165,29 @@ def publish_compas_status():
 		# Apply hard iron distortion calibration 
 		offset_x = (e_magXmax + e_magXmin) / 2
 		offset_y = (e_magYmax + e_magYmin) / 2
+		offset_z = (e_magZmax + e_magZmin) / 2
 
 		corrected_x = mag_x - offset_x
 		corrected_y = mag_y - offset_y
+		corrected_z = mag_z - offset_z
 
 		# Apply soft iron compass calibration
 		avg_delta_x = (e_magXmax - e_magXmin) / 2
 		avg_delta_y = (e_magYmax - e_magYmin) / 2
-		avg_delta = (avg_delta_x + avg_delta_y)/2
+		avg_delta_z = (e_magZmax - e_magZmin) / 2
+		avg_delta = (avg_delta_x + avg_delta_y + avg_delta_z) / 3
 
 		scale_x = avg_delta / avg_delta_x
-		scale_y = avg_delta/avg_delta_y
+		scale_y = avg_delta / avg_delta_y
+		scale_z = avg_delta / avg_delta_z
 
 		corrected_x = (mag_x - offset_x) * scale_x
 		corrected_y = (mag_y - offset_y) * scale_y
+		corrected_z = (mag_y - offset_z) * scale_z
+
+		out_file = open("compass_calibration.txt", "a")
+		out_file.write(str(corrected_x) + "," + str(corrected_y) + "," + str(corrected_z))
+		out_file.write("\n")
 
 		#Calculate heading
 		heading = 180 * math.atan2(corrected_x,corrected_y)/M_PI
