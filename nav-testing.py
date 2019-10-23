@@ -51,11 +51,11 @@ magZmax =  0
 
 #external compass hard iron distortion calibration values
 
-e_magXmin = -0.2175
-e_magYmin = -0.1296
+e_magXmin = -0.3193
+e_magYmin = -0.1243
 e_magZmin = 0
-e_magXmax = 0.22072
-e_magYmax = 0.23488
+e_magXmax = 0.34992
+e_magYmax = 0.50336
 e_magZmax = 0
 
 
@@ -157,6 +157,8 @@ def calibrate_external_compass():
 	print("Y Max: " + str(ext_magYmax))
 	print("X Min: " + str(ext_magXmin))
 	print("Y Min: " + str(ext_magYmin))
+	print("Z Min: " + str(ext_magZmin))
+	print("Z Min: " + str(ext_magZmin))
 	
 
 def publish_compas_status():
