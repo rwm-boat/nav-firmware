@@ -139,11 +139,12 @@ def publish_compas_status():
 			'temp' : temp,
 			'compass': compass,
 		}
+		app_json = json.dumps(message)
+		pubber.publish("/status/compass",app_json)
 	except Exception:
 		print("no internal compass")
 
-	app_json = json.dumps(message)
-	pubber.publish("/status/compass",app_json)
+	
 
 def publish_internal_compass_status():
 
