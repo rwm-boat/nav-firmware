@@ -123,16 +123,21 @@ def publish_gps_status():
 
 
 def publish_compas_status():
-	mag_x, mag_y, mag_z = sensor.magnetic
-	temp = sensor.temperature
-	compass = round(-(24 + numpy.degrees(numpy.arctan2(mag_x, mag_y))))
-	if compass < 0:
-		compass = 360 + compass
-	screencompass = compass
-	message = {
-		'temp' : temp,
-		'compass': compass,
-	}
+
+	try:
+		mag_x, mag_y, mag_z = sensor.magnetic
+		temp = sensor.temperature
+		compass = round(-(24 + numpy.degrees(numpy.arctan2(mag_x, mag_y))))
+		if compass < 0:
+			compass = 360 + compass
+		screencompass = compass
+		message = {
+			'temp' : temp,
+			'compass': compass,
+		}
+	except Exception:
+		print("no internal compass")
+		
 	app_json = json.dumps(message)
 	pubber.publish("/status/compass",app_json)
 
