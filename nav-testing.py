@@ -40,6 +40,8 @@ M_PI = 3.14159265358979323846
 G_GAIN = 0.070  # [deg/s/LSB]  If you change the dps for gyro, you need to update this value accordingly
 AA =  0.40      # Complementary filter constant
 
+internal_compass = 0
+
 #internal compass calibration values
 
 magXmin =  0
@@ -203,7 +205,7 @@ def publish_compas_status():
 		#Calculate heading
 		heading = 180 * math.atan2(corrected_x,corrected_y)/M_PI
 		uncal_heading = 180 * math.atan2(mag_x,mag_y)/M_PI
-		
+
 		#Only have our heading between 0 and 360
 		if heading < 0:
 			heading += 360
@@ -211,7 +213,7 @@ def publish_compas_status():
 			uncal_heading += 360
 
 		out_file = open("course_comparison.txt", "a")
-		out_file.write(str(heading) + "," + str(uncal_heading) + "," + str(agps_thread.data_stream.track))
+		out_file.write(str(heading) + "," + str(uncal_heading) + "," + str(internal_compass) + "," + str(agps_thread.data_stream.track))
 		out_file.write("\n")
 
 		message = {
@@ -225,6 +227,8 @@ def publish_compas_status():
 	except Exception:
 		print("no external imu")
 def publish_internal_compass_status():
+
+	global internal_compass
 
 	#Read the accelerometer,gyroscope and magnetometer values
 
@@ -241,6 +245,8 @@ def publish_internal_compass_status():
 	#Only have our heading between 0 and 360
 	if heading < 0:
 		heading += 360
+
+	internal_compass = heading
 
 	message = {
 				'heading': heading
