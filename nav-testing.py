@@ -283,7 +283,7 @@ def publish_vector():
 
 	for x in gps_targets:
 
-
+		distance = 5
 
 		while(distance < TARGET_RADIUS):
 
