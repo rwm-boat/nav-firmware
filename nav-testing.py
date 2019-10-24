@@ -13,7 +13,8 @@ import IMU
 import datetime
 import math
 from haversine import haversine,Unit
-
+import numpy as np
+import nvector as nv
 
 # GPS Setup
 agps_thread = AGPS3mechanism()  # Instantiate AGPS3 Mechanisms
@@ -86,11 +87,18 @@ a = datetime.datetime.now()
 # Setup publisher
 pubber = Publisher(client_id="nav-pubber")
 
+speed = 0
+
+#vector math
+wgs84 = nv.FrameE(name='WGS84')
+distance = 0
+
 def publish_gps_status():
 	global prev_pos
 	global current_pos
 	global total_distance
 	global distance_traveled
+	global speed
 
 	# determine if real values are being produced, convert to knots, then calculate distance traveled
 	if (agps_thread.data_stream.speed != 'n/a' and agps_thread.data_stream.speed != 0):
@@ -135,6 +143,7 @@ def publish_gps_status():
 
 		app_json = json.dumps(message)
 		pubber.publish("/status/gps",app_json)
+		speed = speed_kn
 		prev_pos = current_pos
 
 def calibrate_external_compass():
@@ -253,6 +262,75 @@ def publish_internal_compass_status():
 	}
 	app_json = json.dumps(message)
 	pubber.publish("/status/internal_compass",app_json)
+
+def publish_vector(client, userdata, message):
+
+	global distance
+
+	TARGET_RADIUS = 0.0025
+
+	# JSON for lat and lon locations
+	gps_targets = [
+		{
+			"latitude" : 42.274816,
+			"longitude" : -71.816708
+		},
+		{
+			"latitude" : 42.274658,
+			"longitude" : -71.816636
+		}
+	]
+
+	parsed_targets = json.loads(gps_targets)
+
+	for x in parsed_targets:
+
+		while(distance < TARGET_RADIUS):
+
+			current_lat = agps_thread.data_stream.lat
+			current_lon = agps_thread.data_stream.lon
+			current_pos = (current_lat,current_lon)
+
+			target_lat = x['latitude']
+			target_lon = x['longitude']
+			target_pos = (x['latitude'], x['longitude'])
+			
+			distance = haversine(current_pos,target_pos,unit=Unit.NAUTICAL_MILES)
+			
+			# -------- MAGNITUDE CONSTANTS ---------
+			# 5 - full chat
+			# 4 - comfortable planning
+			# 3 - min-plane-speed
+			# 2 - max efficency displacement
+			# 1 - low speed trolling
+			# 0 - stop
+
+			max_speed = 0.5 # ~ 100 meters
+			plane = 0.5 
+			min_plane = 0.5
+			max_efficency = 0.15 # ~ 25m
+			troll = 0.0025 # ~ 5m
+		# -----------------------------------------
+
+			# calculate vector between two points 
+			target_point = wgs84.GeoPoint(latitude=target_lat, longitude=target_lon, z=0, degrees = True)
+			current_point = wgs84.GeoPoint(latitude=1, longitude=2, z=0, degrees = True)
+			p_AB_N = target_point.delta_to(current_point)
+			azimuth = p_AB_N.azimuth_deg[0]
+			angle = azimuth
+			# calculate magnitude from distance
+			disance = haversine(current_point,target_point, unit=Unit.NAUTICAL_MILES)
+			if(distance > plane): magnitude = 5
+			elif(distance > min_plane): magnitude = 4
+			elif(distance > max_efficency): magnitude = 3
+			else: magnitude = 1
+			# post message with new data
+			message = {
+				'heading' : angle,
+				'magnitude' : magnitude,
+			}
+			app_json = json.dumps(message)
+			pubber.publish("/status/vector",app_json)
 	
 def on_led_command(client, userdata, message):
 	obj = json.loads(message.payload.decode('utf-8'))
