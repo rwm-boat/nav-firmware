@@ -281,9 +281,7 @@ def publish_vector():
 		}
 	]
 
-	parsed_targets = json.loads(gps_targets)
-
-	for x in parsed_targets:
+	for x in gps_targets:
 
 		while(distance < TARGET_RADIUS):
 
