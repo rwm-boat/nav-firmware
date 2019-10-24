@@ -317,7 +317,7 @@ def publish_vector():
 			azimuth = p_AB_N.azimuth_deg[0]
 			angle = azimuth
 			# calculate magnitude from distance
-			disance = haversine(current_point,target_point, unit=Unit.NAUTICAL_MILES)
+			disance = haversine(current_pos,target_pos, unit=Unit.NAUTICAL_MILES)
 			if(distance > plane): magnitude = 5
 			elif(distance > min_plane): magnitude = 4
 			elif(distance > max_efficency): magnitude = 3
