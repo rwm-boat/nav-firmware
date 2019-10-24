@@ -376,6 +376,10 @@ try:
 		publish_compas_status()
 		#publish_internal_compass_status()
 		#calibrate_external_compass()
+		counter += 1
+		if(counter == 10): 
+			counter = 0
+			publish_vector()
 		time.sleep(.1)
 
 # turn off all leds when program exits		
