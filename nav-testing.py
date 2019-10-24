@@ -331,6 +331,7 @@ def publish_vector(client, userdata, message):
 			}
 			app_json = json.dumps(message)
 			pubber.publish("/status/vector",app_json)
+			time.sleep(1)
 	
 def on_led_command(client, userdata, message):
 	obj = json.loads(message.payload.decode('utf-8'))
@@ -369,6 +370,7 @@ try:
 		#publish all boat values at 10hz interval
 		publish_gps_status()
 		publish_compas_status()
+		publish_vector()
 		#publish_internal_compass_status()
 		#calibrate_external_compass()
 		time.sleep(.1)
