@@ -121,7 +121,7 @@ def publish_gps_status():
 			'course': agps_thread.data_stream.track,
 			'distance': total_distance
 		}
-		print(message)
+
 		led_on_message = {
 			'led_id' : 19,
 			'command' : 1
@@ -263,7 +263,7 @@ def publish_internal_compass_status():
 	app_json = json.dumps(message)
 	pubber.publish("/status/internal_compass",app_json)
 
-def publish_vector(client, userdata, message):
+def publish_vector():
 
 	global distance
 
@@ -329,6 +329,7 @@ def publish_vector(client, userdata, message):
 				'heading' : angle,
 				'magnitude' : magnitude,
 			}
+			print(message)
 			app_json = json.dumps(message)
 			pubber.publish("/status/vector",app_json)
 			time.sleep(1)
