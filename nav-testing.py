@@ -200,8 +200,6 @@ def publish_compas_status():
 		out_file.write(str(corrected_x) + "," + str(corrected_y) + "," + str(corrected_z))
 		out_file.write("\n")
 
-		
-
 		#Calculate heading
 		heading = 180 * math.atan2(corrected_x,corrected_y)/M_PI
 		uncal_heading = 180 * math.atan2(mag_x,mag_y)/M_PI
@@ -226,6 +224,8 @@ def publish_compas_status():
 
 	except Exception:
 		print("no external imu")
+
+
 def publish_internal_compass_status():
 
 	global internal_compass
@@ -291,7 +291,7 @@ try:
 		#publish all boat values at 10hz interval
 		publish_gps_status()
 		publish_compas_status()
-		publish_internal_compass_status()
+		#publish_internal_compass_status()
 		#calibrate_external_compass()
 		time.sleep(.1)
 
