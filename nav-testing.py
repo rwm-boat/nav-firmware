@@ -227,7 +227,6 @@ def publish_compas_status():
 			'temp' : temp,
 			'compass': heading,
 		}
-		print (message)
 		app_json = json.dumps(message)
 		pubber.publish("/status/compass",app_json)
 
@@ -284,6 +283,7 @@ def publish_vector():
 	for x in gps_targets:
 
 		distance = 5
+		print("here")
 
 		while(distance < TARGET_RADIUS):
 
