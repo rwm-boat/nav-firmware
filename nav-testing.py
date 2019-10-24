@@ -287,7 +287,6 @@ def publish_vector():
 
 		while(distance > TARGET_RADIUS):
 
-			
 			target_lat = float(x['latitude'])
 			target_lon = float(x['longitude'])
 			target_pos = (target_lat,target_lon)
@@ -329,7 +328,6 @@ def publish_vector():
 				'heading' : angle,
 				'magnitude' : magnitude,
 			}
-			print(message)
 			app_json = json.dumps(message)
 			pubber.publish("/status/vector",app_json)
 			time.sleep(1)
