@@ -234,34 +234,6 @@ def publish_compas_status():
 		print("no external imu")
 
 
-def publish_internal_compass_status():
-
-	global internal_compass
-
-	#Read the accelerometer,gyroscope and magnetometer values
-
-	MAGx = IMU.readMAGx()
-	MAGy = IMU.readMAGy()
-	
-	#Apply compass calibration    
-	MAGx -= (magXmin + magXmax) /2 
-	MAGy -= (magYmin + magYmax) /2 
- 
-	#Calculate heading
-	heading = 180 * math.atan2(MAGy,MAGx)/M_PI
-
-	#Only have our heading between 0 and 360
-	if heading < 0:
-		heading += 360
-
-	internal_compass = heading
-
-	message = {
-				'heading': heading
-	}
-	app_json = json.dumps(message)
-	pubber.publish("/status/internal_compass",app_json)
-
 def publish_vector():
 
 	global distance
@@ -305,7 +277,7 @@ def publish_vector():
 			min_plane = 0.5
 			max_efficency = 0.15 # ~ 25m
 			troll = 0.0025 # ~ 5m
-		# -----------------------------------------
+			# ---------------------------------------
 
 			# calculate vector between two points 
 			target_point = wgs84.GeoPoint(latitude=target_lat, longitude=target_lon, z=0, degrees = True)
@@ -371,13 +343,8 @@ try:
 		#publish all boat values at 10hz interval
 		publish_gps_status()
 		publish_compas_status()
-		#publish_internal_compass_status()
 		#calibrate_external_compass()
-		# counter += 1
-		# if(counter > 9): 
-		# 	counter = 0
-		# 	print(counter)
-		# 	publish_vector()
+
 		time.sleep(.1)
 
 # turn off all leds when program exits		
