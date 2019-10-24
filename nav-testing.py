@@ -379,8 +379,9 @@ try:
 		#publish_internal_compass_status()
 		#calibrate_external_compass()
 		counter += 1
-		if(counter == 10): 
+		if(counter > 9): 
 			counter = 0
+			print(counter)
 			publish_vector()
 		time.sleep(.1)
 
