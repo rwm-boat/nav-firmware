@@ -283,9 +283,8 @@ def publish_vector():
 	for x in gps_targets:
 
 		distance = 5
-		print("here")
 
-		while(distance < TARGET_RADIUS):
+		while(distance > TARGET_RADIUS):
 
 			current_lat = float(agps_thread.data_stream.lat)
 			current_lon = float(agps_thread.data_stream.lon)
@@ -298,6 +297,7 @@ def publish_vector():
 			print(target_pos)
 			
 			distance = haversine(current_pos,target_pos,unit=Unit.NAUTICAL_MILES)
+			print(distance)
 			
 			# -------- MAGNITUDE CONSTANTS ---------
 			# 5 - full chat
