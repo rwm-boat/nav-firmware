@@ -104,7 +104,6 @@ def publish_gps_status():
 	if (agps_thread.data_stream.speed != 'n/a' and agps_thread.data_stream.speed != 0):
 				speed_kn = agps_thread.data_stream.speed * 1.94384449
 				current_pos = (agps_thread.data_stream.lat,agps_thread.data_stream.lon)
-				print("here")
 				if(prev_pos == (0,0)):
 					prev_pos = current_pos
 				distance_traveled = haversine(current_pos,prev_pos, unit=Unit.NAUTICAL_MILES)	
@@ -122,6 +121,7 @@ def publish_gps_status():
 			'course': agps_thread.data_stream.track,
 			'distance': total_distance
 		}
+		print(message)
 
 		led_on_message = {
 			'led_id' : 19,
