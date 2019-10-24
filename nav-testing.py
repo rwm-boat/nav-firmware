@@ -324,6 +324,7 @@ def publish_vector():
 				'heading' : angle,
 				'magnitude' : magnitude,
 			}
+			print(message)
 			app_json = json.dumps(message)
 			pubber.publish("/status/vector",app_json)
 			time.sleep(1)
