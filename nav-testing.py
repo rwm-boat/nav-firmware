@@ -113,6 +113,7 @@ def publish_gps_status():
 	#if gps is returning real values, publish values
 	if(distance_traveled < 0.1):
 		total_distance += distance_traveled
+		current_pos = (agps_thread.data_stream.lat,agps_thread.data_stream.lon)
 		message = {
 			'time' :  agps_thread.data_stream.time,
 			'latitude' : agps_thread.data_stream.lat,
