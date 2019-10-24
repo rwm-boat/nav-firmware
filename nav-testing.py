@@ -369,6 +369,8 @@ thread.start()
 # vector_thread = Thread(target=publish_vector())
 # vector_thread.start()
 
+counter = 0
+
 try: 
 	while True:
 		#publish all boat values at 10hz interval
