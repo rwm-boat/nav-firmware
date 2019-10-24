@@ -41,16 +41,6 @@ M_PI = 3.14159265358979323846
 G_GAIN = 0.070  # [deg/s/LSB]  If you change the dps for gyro, you need to update this value accordingly
 AA =  0.40      # Complementary filter constant
 
-internal_compass = 0
-
-#internal compass calibration values
-
-magXmin =  0
-magYmin =  0
-magZmin =  0
-magXmax =  0
-magYmax =  0
-magZmax =  0
 
 #external compass hard iron distortion calibration values
 
@@ -73,14 +63,6 @@ ext_magZmin = 0
 
 IMU.detectIMU()     #Detect if BerryIMUv1 or BerryIMUv2 is connected.
 IMU.initIMU()       #Initialise the accelerometer, gyroscope and compass
-
-gyroXangle = 0.0
-gyroYangle = 0.0
-gyroZangle = 0.0
-CFangleX = 0.0
-CFangleY = 0.0
-kalmanX = 0.0
-kalmanY = 0.0
 
 a = datetime.datetime.now()
 
@@ -258,11 +240,14 @@ def publish_vector():
 
 		while(distance > TARGET_RADIUS):
 
-			target_lat = float(x['latitude'])
-			target_lon = float(x['longitude'])
-			target_pos = (target_lat,target_lon)
+			try:
+				target_lat = float(x['latitude'])
+				target_lon = float(x['longitude'])
+				target_pos = (target_lat,target_lon)
 
-			distance = haversine(current_pos,target_pos,unit=Unit.NAUTICAL_MILES)
+				distance = haversine(current_pos,target_pos,unit=Unit.NAUTICAL_MILES)
+			except Exception:
+				print("non-valid gps values")
 			
 			# -------- MAGNITUDE CONSTANTS ---------
 			# 5 - full chat
