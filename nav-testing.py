@@ -366,8 +366,8 @@ subber = Subscriber(client_id="led_actuator", broker_ip="192.168.1.170", default
 thread = Thread(target=subber.listen)
 thread.start()
 
-# vector_thread = Thread(target=publish_vector())
-# vector_thread.start()
+vector_thread = Thread(target=publish_vector())
+vector_thread.start()
 
 counter = 0
 
@@ -378,11 +378,11 @@ try:
 		publish_compas_status()
 		#publish_internal_compass_status()
 		#calibrate_external_compass()
-		counter += 1
-		if(counter > 9): 
-			counter = 0
-			print(counter)
-			publish_vector()
+		# counter += 1
+		# if(counter > 9): 
+		# 	counter = 0
+		# 	print(counter)
+		# 	publish_vector()
 		time.sleep(.1)
 
 # turn off all leds when program exits		
