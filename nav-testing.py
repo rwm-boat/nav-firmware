@@ -283,15 +283,19 @@ def publish_vector():
 
 	for x in gps_targets:
 
+
+
 		while(distance < TARGET_RADIUS):
 
 			current_lat = agps_thread.data_stream.lat
 			current_lon = agps_thread.data_stream.lon
 			current_pos = (current_lat,current_lon)
+			print(current_pos)
 
 			target_lat = float(x['latitude'])
 			target_lon = float(x['longitude'])
 			target_pos = (target_lat,target_lon)
+			print(target_pos)
 			
 			distance = haversine(current_pos,target_pos,unit=Unit.NAUTICAL_MILES)
 			
