@@ -20,11 +20,13 @@ import nvector as nv
 agps_thread = AGPS3mechanism()  # Instantiate AGPS3 Mechanisms
 agps_thread.stream_data()  # From localhost (), or other hosts, by example, (host='gps.ddns.net')
 agps_thread.run_thread()  # Throttle time to sleep after an empty lookup, default '()' 0.2 two tenths of a second
+
 #initalizing previous GPS location for haversine
 prev_pos = (0,0)
 current_pos = (0,0)
 total_distance = 0
 distance_traveled = 0
+
 # I2C connection if possible
 try:
 	i2c = busio.I2C(board.SCL, board.SDA)
@@ -32,25 +34,15 @@ try:
 except Exception:
 	print("no 9dof imu")
 
-#internal IMU setup
-# If the IMU is upside down (Skull logo facing up), change this value to 1
-IMU_UPSIDE_DOWN = 0
-
-RAD_TO_DEG = 57.29578
 M_PI = 3.14159265358979323846
-G_GAIN = 0.070  # [deg/s/LSB]  If you change the dps for gyro, you need to update this value accordingly
-AA =  0.40      # Complementary filter constant
-
 
 #external compass hard iron distortion calibration values
-
 e_magXmin = -0.4564
 e_magYmin = -0.4388
 e_magZmin = 0
 e_magXmax = 0.44608
 e_magYmax = 0.46336
 e_magZmax = 0.66368
-
 
 #calibration function values
 ext_magXmin = 0
@@ -214,7 +206,6 @@ def publish_compas_status():
 
 	except Exception:
 		print("no external imu")
-
 
 def publish_vector():
 
