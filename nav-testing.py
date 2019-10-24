@@ -328,6 +328,7 @@ def publish_vector():
 				'heading' : angle,
 				'magnitude' : magnitude,
 			}
+			print(message)
 			app_json = json.dumps(message)
 			pubber.publish("/status/vector",app_json)
 			time.sleep(1)
@@ -364,7 +365,7 @@ subber = Subscriber(client_id="led_actuator", broker_ip="192.168.1.170", default
 thread = Thread(target=subber.listen)
 thread.start()
 
-vector_thread = Thread(target=publish_vector())
+vector_thread = Thread(target=publish_vector)
 vector_thread.start()
 
 counter = 0
