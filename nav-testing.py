@@ -122,8 +122,6 @@ def publish_gps_status():
 			'course': agps_thread.data_stream.track,
 			'distance': total_distance
 		}
-		print(message)
-
 		led_on_message = {
 			'led_id' : 19,
 			'command' : 1
@@ -292,10 +290,7 @@ def publish_vector():
 			target_lon = float(x['longitude'])
 			target_pos = (target_lat,target_lon)
 
-			print(current_pos)
-			print(target_pos)
 			distance = haversine(current_pos,target_pos,unit=Unit.NAUTICAL_MILES)
-			print(distance)
 			
 			# -------- MAGNITUDE CONSTANTS ---------
 			# 5 - full chat
@@ -329,7 +324,6 @@ def publish_vector():
 				'heading' : angle,
 				'magnitude' : magnitude,
 			}
-			print(message)
 			app_json = json.dumps(message)
 			pubber.publish("/status/vector",app_json)
 			time.sleep(1)
