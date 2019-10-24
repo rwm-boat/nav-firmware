@@ -287,8 +287,8 @@ def publish_vector():
 
 		while(distance < TARGET_RADIUS):
 
-			current_lat = agps_thread.data_stream.lat
-			current_lon = agps_thread.data_stream.lon
+			current_lat = float(agps_thread.data_stream.lat)
+			current_lon = float(agps_thread.data_stream.lon)
 			current_pos = (current_lat,current_lon)
 			print(current_pos)
 
