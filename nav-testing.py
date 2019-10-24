@@ -73,29 +73,32 @@ def publish_gps_status():
 	global total_distance
 	global distance_traveled
 	global speed
+	try:
+		# determine if real values are being produced, convert to knots, then calculate distance traveled
+		if (agps_thread.data_stream.speed != 'n/a' and agps_thread.data_stream.speed != 0):
+					speed_kn = agps_thread.data_stream.speed * 1.94384449
+					current_pos = (agps_thread.data_stream.lat,agps_thread.data_stream.lon)
+					if(prev_pos == (0,0)):
+						prev_pos = current_pos
+					distance_traveled = haversine(current_pos,prev_pos, unit=Unit.NAUTICAL_MILES)	
+		else:
+			speed_kn = 0
 
-	# determine if real values are being produced, convert to knots, then calculate distance traveled
-	if (agps_thread.data_stream.speed != 'n/a' and agps_thread.data_stream.speed != 0):
-				speed_kn = agps_thread.data_stream.speed * 1.94384449
-				current_pos = (agps_thread.data_stream.lat,agps_thread.data_stream.lon)
-				if(prev_pos == (0,0)):
-					prev_pos = current_pos
-				distance_traveled = haversine(current_pos,prev_pos, unit=Unit.NAUTICAL_MILES)	
-	else:
-		speed_kn = 0
+		#if gps is returning real values, publish values
+		if(distance_traveled < 0.1):
+			total_distance += distance_traveled
+			current_pos = (agps_thread.data_stream.lat,agps_thread.data_stream.lon)
+			message = {
+				'time' :  agps_thread.data_stream.time,
+				'latitude' : agps_thread.data_stream.lat,
+				'longitude' : agps_thread.data_stream.lon,
+				'speed': speed_kn,
+				'course': agps_thread.data_stream.track,
+				'distance': total_distance
+			}
+	except Exception:
+		print("invalid gps values")
 
-	#if gps is returning real values, publish values
-	if(distance_traveled < 0.1):
-		total_distance += distance_traveled
-		current_pos = (agps_thread.data_stream.lat,agps_thread.data_stream.lon)
-		message = {
-			'time' :  agps_thread.data_stream.time,
-			'latitude' : agps_thread.data_stream.lat,
-			'longitude' : agps_thread.data_stream.lon,
-			'speed': speed_kn,
-			'course': agps_thread.data_stream.track,
-			'distance': total_distance
-		}
 		led_on_message = {
 			'led_id' : 19,
 			'command' : 1
