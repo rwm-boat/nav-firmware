@@ -1,5 +1,5 @@
 import math
-from gps_pub import *
+from gps_pub import * as gps
 from haversine import haversine,Unit
 import numpy as np
 import nvector as nv
@@ -57,10 +57,9 @@ def publish_vector():
 				target_lat = float(x['latitude'])
 				target_lon = float(x['longitude'])
 				target_pos = (target_lat,target_lon)
-				cur_lat = float(current_lat)
-				cur_lon = float(current_lon)
-				if(cur_lat is not 0 and cur_lon is not 0):
-					current_position = (cur_lat,cur_lon)
+				cur_lat = float(gps.current_lat)
+				cur_lon = float(gps.current_lon)
+                current_position = (cur_lon,cur_lat)
 				distance = haversine(current_position,target_pos,unit=Unit.NAUTICAL_MILES)
 			except Exception:
 				pass
