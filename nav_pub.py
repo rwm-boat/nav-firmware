@@ -253,7 +253,7 @@ def publish_vector():
 		distance = 5 # initialize non-zero
 
 	# while you have not yet hit the target create vectors
-		while(distance > TARGET_RADIUS):
+		while(distance > TARGET_RADIUS and current_pos is not 0):
 
 			try:
 				target_lat = float(x['latitude'])
