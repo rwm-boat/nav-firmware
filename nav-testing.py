@@ -101,7 +101,8 @@ def publish_gps_status():
 			pubber.publish("/status/gps",app_json)
 
 	except Exception:
-		print("invalid gps values")
+		# print("invalid gps values")
+		pass
 
 		led_on_message = {
 			'led_id' : 19,
@@ -212,7 +213,8 @@ def publish_compas_status():
 		pubber.publish("/status/compass",app_json)
 
 	except Exception:
-		print("no external imu")
+		#print("no external imu")
+		pass
 
 def publish_vector():
 
