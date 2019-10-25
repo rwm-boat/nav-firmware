@@ -63,30 +63,30 @@ def publish_vector():
 				distance = haversine(current_position,target_pos,unit=Unit.NAUTICAL_MILES)
 			except Exception:
 				print("vector pub not receiving valid gps")
-
-			# calculate vector between two points 
-			target_point = wgs84.GeoPoint(latitude=target_lat, longitude=target_lon, z=0, degrees = True)
-			current_point = wgs84.GeoPoint(latitude=cur_lat, longitude=cur_lon, z=0, degrees = True)
-			p_AB_N = current_point.delta_to(target_point)
-			azimuth = p_AB_N.azimuth_deg[0]
-			angle = azimuth
-			if(angle < 0):
-				angle += 360
-			
-			# calculate magnitude from distance
-			if(distance > 10): magnitude = 1 # remove outliers
-			elif(distance > plane): magnitude = 5
-			elif(distance > min_plane): magnitude = 4
-			elif(distance > max_efficency): magnitude = 3
-			else: magnitude = 1
-			print("distance: " + str(distance))
-	
-			# post message with new data
-			message = {
-				'heading' : angle,
-				'magnitude' : magnitude,
-			}
-			print(message)
-			app_json = json.dumps(message)
-			pubber.publish("/status/vector",app_json)
+			if(distance < 10): # get rid of outliers
+				# calculate vector between two points 
+				target_point = wgs84.GeoPoint(latitude=target_lat, longitude=target_lon, z=0, degrees = True)
+				current_point = wgs84.GeoPoint(latitude=cur_lat, longitude=cur_lon, z=0, degrees = True)
+				p_AB_N = current_point.delta_to(target_point)
+				azimuth = p_AB_N.azimuth_deg[0]
+				angle = azimuth
+				if(angle < 0):
+					angle += 360
+				
+				# calculate magnitude from distance
+				if(distance > 10): magnitude = 1 # remove outliers
+				elif(distance > plane): magnitude = 5
+				elif(distance > min_plane): magnitude = 4
+				elif(distance > max_efficency): magnitude = 3
+				else: magnitude = 1
+				print("distance: " + str(distance))
+		
+				# post message with new data
+				message = {
+					'heading' : angle,
+					'magnitude' : magnitude,
+				}
+				print(message)
+				app_json = json.dumps(message)
+				pubber.publish("/status/vector",app_json)
 			time.sleep(1)
