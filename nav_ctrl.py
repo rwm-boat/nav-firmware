@@ -1,8 +1,12 @@
 #from nav_pub import * 
 from gps_pub import * # publish GPS status
 from compass_pub import * # publish compass status
+from vector_pub import * # publish vectors
 import time
 import RPi.GPIO as GPIO
+
+vector_thread = Thread(target=publish_vector)
+vector_thread.start()
 
 try:
 	while(True):
