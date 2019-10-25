@@ -46,12 +46,12 @@ def publish_vector():
 	# 	}
 	# ]
 
-	with open('gps_waypoints.txt') as json_file:
+	with open('gps_waypoints.txt', "r") as json_file:
 		gps_targets = json.load(json_file)
-		
-	#itterate through list of gps targets
-	for x in gps_targets:
 
+	#itterate through list of gps targets
+	for line in gps_targets.readlines():
+		x = json.loads(line)
 		distance = 5 # initialize non-zero
 
 	# while you have not yet hit the target create vectors
