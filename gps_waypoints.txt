@@ -1,0 +1,8 @@
+{
+    "latitude" : 42.274982,
+    "longitude" : -71.816890
+},
+{
+    "latitude" : 42.275465,
+    "longitude" : -71.816851
+}

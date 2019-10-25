@@ -34,17 +34,21 @@ def publish_vector():
 
 	TARGET_RADIUS = 0.002
 
-	# JSON for lat and lon locations
-	gps_targets = [
-		{
-			"latitude" : 42.274982,
-			"longitude" : -71.816890
-		},
-		{
-			"latitude" : 42.275465,
-			"longitude" : -71.816851
-		}
-	]
+	# # JSON for lat and lon locations
+	# gps_targets = [
+	# 	{
+	# 		"latitude" : 42.274982,
+	# 		"longitude" : -71.816890
+	# 	},
+	# 	{
+	# 		"latitude" : 42.275465,
+	# 		"longitude" : -71.816851
+	# 	}
+	# ]
+
+	with open('gps_waypoints.txt') as json_file:
+		gps_targets = json.load(json_file)
+		
 	#itterate through list of gps targets
 	for x in gps_targets:
 
