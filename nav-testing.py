@@ -287,7 +287,7 @@ def publish_vector():
 			elif(distance > min_plane): magnitude = 4
 			elif(distance > max_efficency): magnitude = 3
 			else: magnitude = 1
-			print("distance: " + distance)
+			print("distance: " + str(distance))
 			# post message with new data
 			message = {
 				'heading' : angle,
