@@ -252,7 +252,8 @@ def publish_vector():
 				print("distance: " + distance)
 				
 			except Exception:
-				print("non-valid gps values")
+				pass
+				#print("non-valid gps values")
 			
 			# -------- MAGNITUDE CONSTANTS ---------
 			# 5 - full chat
@@ -279,7 +280,8 @@ def publish_vector():
 			try:
 				distance = haversine(current_pos,target_pos, unit=Unit.NAUTICAL_MILES)
 			except Exception:
-				print("non-valid gps")
+				pass
+				#("non-valid gps")
 			if(distance > plane): magnitude = 5
 			elif(distance > min_plane): magnitude = 4
 			elif(distance > max_efficency): magnitude = 3
