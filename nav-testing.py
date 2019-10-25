@@ -279,7 +279,7 @@ def publish_vector():
 			# calculate magnitude from distance
 			try:
 				distance = haversine(current_pos,target_pos, unit=Unit.NAUTICAL_MILES)
-				print("distance: " + distance)
+				
 			except Exception:
 				pass
 				#("non-valid gps")
@@ -287,6 +287,7 @@ def publish_vector():
 			elif(distance > min_plane): magnitude = 4
 			elif(distance > max_efficency): magnitude = 3
 			else: magnitude = 1
+			print("distance: " + distance)
 			# post message with new data
 			message = {
 				'heading' : angle,
