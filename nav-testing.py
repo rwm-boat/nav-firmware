@@ -224,20 +224,22 @@ def publish_vector():
 	# JSON for lat and lon locations
 	gps_targets = [
 		{
-			"latitude" : 42.274816,
-			"longitude" : -71.816708
+			"latitude" : 42.274982,
+			"longitude" : -71.816890
 		},
 		{
-			"latitude" : 42.274658,
-			"longitude" : -71.816636
+			"latitude" : 42.275465,
+			"longitude" : -71.816851
 		}
 	]
 
 	for x in gps_targets:
 
 		distance = 5 # initialize non-zero
+		print("WAYPOINT HIT")
 
 		while(distance > TARGET_RADIUS):
+
 
 			try:
 				target_lat = float(x['latitude'])
@@ -245,6 +247,8 @@ def publish_vector():
 				target_pos = (target_lat,target_lon)
 
 				distance = haversine(current_pos,target_pos,unit=Unit.NAUTICAL_MILES)
+
+				print("distance: " + distance)
 				
 			except Exception:
 				print("non-valid gps values")
