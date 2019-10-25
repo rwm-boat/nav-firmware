@@ -84,13 +84,13 @@ def publish_compas_status():
 		corrected_y = (mag_y - offset_y) * scale_y
 		corrected_z = (mag_y - offset_z) * scale_z
 
-		out_file = open("uncalibrated_compass.txt", "a")
-		out_file.write(str(mag_x) + "," + str(mag_y) + "," + str(mag_z))
-		out_file.write("\n")
+		# out_file = open("uncalibrated_compass.txt", "a")
+		# out_file.write(str(mag_x) + "," + str(mag_y) + "," + str(mag_z))
+		# out_file.write("\n")
 
-		out_file = open("calibrated_compass.txt", "a")
-		out_file.write(str(corrected_x) + "," + str(corrected_y) + "," + str(corrected_z))
-		out_file.write("\n")
+		# out_file = open("calibrated_compass.txt", "a")
+		# out_file.write(str(corrected_x) + "," + str(corrected_y) + "," + str(corrected_z))
+		# out_file.write("\n")
 
 		#Calculate heading
 		heading = 180 * math.atan2(corrected_x,corrected_y)/M_PI
@@ -102,9 +102,9 @@ def publish_compas_status():
 		if uncal_heading < 0:
 			uncal_heading += 360
 
-		out_file = open("course_comparison.txt", "a")
-		out_file.write(str(heading) + "," + str(uncal_heading) + "," + str(internal_compass) + "," + str(agps_thread.data_stream.track))
-		out_file.write("\n")
+		# out_file = open("course_comparison.txt", "a")
+		# out_file.write(str(heading) + "," + str(uncal_heading) + "," + str(internal_compass) + "," + str(agps_thread.data_stream.track))
+		# out_file.write("\n")
 
 		message = {
 			'temp' : temp,
