@@ -1,5 +1,5 @@
 import math
-from gps_pub import *
+import gps_pub
 from haversine import haversine,Unit
 import numpy as np
 import nvector as nv
@@ -62,7 +62,7 @@ def publish_vector():
 				current_position = (cur_lat,cur_lon)
 				distance = haversine(current_position,target_pos,unit=Unit.NAUTICAL_MILES)
 			except Exception:
-				pass
+				print("vector pub not receiving valid gps")
 
 			# calculate vector between two points 
 			target_point = wgs84.GeoPoint(latitude=target_lat, longitude=target_lon, z=0, degrees = True)
