@@ -4,6 +4,7 @@ from compass_pub import * # publish compass status
 from vector_pub import * # publish vectors
 import time
 import RPi.GPIO as GPIO
+from threading import Thread
 
 vector_thread = Thread(target=publish_vector)
 vector_thread.start()
