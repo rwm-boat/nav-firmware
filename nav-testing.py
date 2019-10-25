@@ -276,6 +276,11 @@ def publish_vector():
 			p_AB_N = target_point.delta_to(current_point)
 			azimuth = p_AB_N.azimuth_deg[0]
 			angle = azimuth
+
+			print("target: " + str(target_point))
+			print("current: " + str(current_point))
+			pint("azimuth: " + str(azimuth))
+
 			# calculate magnitude from distance
 			try:
 				distance = haversine(current_pos,target_pos, unit=Unit.NAUTICAL_MILES)
