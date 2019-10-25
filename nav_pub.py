@@ -106,6 +106,8 @@ def publish_gps_status():
 	except Exception:
 		print("GPS Failure")
 
+		
+		# check to see if the gps has a fix, if it does, turn on LED's
 		led_on_message = {
 			'led_id' : 19,
 			'command' : 1
@@ -115,18 +117,15 @@ def publish_gps_status():
 			'led_id' : 19,
 			'command' : 0
 		}
-
-		# check to see if the gps has a fix, if it does, turn on LED's
 		if(agps_thread.data_stream.time == 'n/a'):
 			app_json = json.dumps(led_off_message)
 			pubber.publish("/command/led",app_json)
-
 		else:
 			app_json = json.dumps(led_on_message)
 			pubber.publish("/command/led",app_json)
-
 		app_json = json.dumps(message)
 		pubber.publish("/status/gps",app_json)
+		
 		speed = speed_kn
 		prev_pos = current_pos
 
@@ -215,7 +214,6 @@ def publish_compas_status():
 		pubber.publish("/status/compass",app_json)
 
 	except Exception:
-		#print("no external imu")
 		pass
 
 def publish_vector():
@@ -277,7 +275,6 @@ def publish_vector():
 				angle += 360
 			
 			# calculate magnitude from distance
-			#distance = haversine(current_pos,target_pos, unit=Unit.NAUTICAL_MILES)
 			if(distance > plane): magnitude = 5
 			elif(distance > min_plane): magnitude = 4
 			elif(distance > max_efficency): magnitude = 3
@@ -327,20 +324,26 @@ subber = Subscriber(client_id="led_actuator", broker_ip="192.168.1.170", default
 thread = Thread(target=subber.listen)
 thread.start()
 
+# new thread for publishing the vector at 1hz
 vector_thread = Thread(target=publish_vector)
 vector_thread.start()
 
-counter = 0
 
+# ------------- main program loop ----------------
+
+#publish all boat values at 10hz interval
 try: 
 	while True:
-		#publish all boat values at 10hz interval
 		publish_gps_status()
 		publish_compas_status()
 		time.sleep(.1)
 
-# turn off all leds when program exits		
 except KeyboardInterrupt:
+	# turn off all leds when program exits
+	GPIO.setup(13,GPIO.OUT)
+	GPIO.setup(19,GPIO.OUT)
+	GPIO.setup(26,GPIO.OUT)
+
 	GPIO.output(13,GPIO.LOW)
 	GPIO.output(19,GPIO.LOW)
 	GPIO.output(26,GPIO.LOW)
