@@ -249,7 +249,7 @@ def publish_vector():
 
 				distance = haversine(current_pos,target_pos,unit=Unit.NAUTICAL_MILES)
 
-				print("distance: " + distance)
+				
 				
 			except Exception:
 				pass
@@ -279,6 +279,7 @@ def publish_vector():
 			# calculate magnitude from distance
 			try:
 				distance = haversine(current_pos,target_pos, unit=Unit.NAUTICAL_MILES)
+				print("distance: " + distance)
 			except Exception:
 				pass
 				#("non-valid gps")
