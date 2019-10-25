@@ -16,7 +16,8 @@ distance = 0
 
 def publish_vector():
 
-	# -------- MAGNITUDE CONSTANTS ---------
+	global distance
+	# --------- CONSTANTS ---------
 	# 5 - full chat
 	# 4 - comfortable planning
 	# 3 - min-plane-speed
@@ -28,24 +29,10 @@ def publish_vector():
 	min_plane = 0.5
 	max_efficency = 0.15 # ~ 25m
 	troll = 0.0025 # ~ 5m
-	# ---------------------------------------
-
-	global distance
 
 	TARGET_RADIUS = 0.002
+	# -------------------------------
 
-	# # JSON for lat and lon locations
-	# gps_targets = [
-	# 	{
-	# 		"latitude" : 42.274982,
-	# 		"longitude" : -71.816890
-	# 	},
-	# 	{
-	# 		"latitude" : 42.275465,
-	# 		"longitude" : -71.816851
-	# 	}
-	# ]
-	
 	#itterate through list of gps targets
 	with open('gps_waypoints.txt', "r") as json_file:
 		for line in json_file.readlines():
