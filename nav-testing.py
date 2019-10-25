@@ -96,8 +96,7 @@ def publish_gps_status():
 				'course': agps_thread.data_stream.track,
 				'distance': total_distance
 			}
-			print(message)
-			
+		
 			app_json = json.dumps(message)
 			pubber.publish("/status/gps",app_json)
 
@@ -288,7 +287,6 @@ def publish_vector():
 				'heading' : angle,
 				'magnitude' : magnitude,
 			}
-			print(message)
 			app_json = json.dumps(message)
 			pubber.publish("/status/vector",app_json)
 			time.sleep(1)
