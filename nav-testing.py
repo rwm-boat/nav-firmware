@@ -97,6 +97,10 @@ def publish_gps_status():
 				'distance': total_distance
 			}
 			print(message)
+			
+			app_json = json.dumps(message)
+			pubber.publish("/status/gps",app_json)
+
 	except Exception:
 		print("invalid gps values")
 
