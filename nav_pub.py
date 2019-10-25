@@ -274,11 +274,9 @@ def publish_vector():
 			if(angle < 0):
 				angle += 360
 			
-			#remove distance outliers
-			if(distance > 10): distance = 0
-			
 			# calculate magnitude from distance
-			if(distance > plane): magnitude = 5
+			if(distance > 10): magnitude = 1 # remove outliers
+			elif(distance > plane): magnitude = 5
 			elif(distance > min_plane): magnitude = 4
 			elif(distance > max_efficency): magnitude = 3
 			else: magnitude = 1
