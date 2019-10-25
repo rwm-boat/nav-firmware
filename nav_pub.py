@@ -1,5 +1,5 @@
 
-import RPi.GPIO as GPIO
+
 import numpy
 
 import time
@@ -149,16 +149,9 @@ vector_thread.start()
 #publish all boat values at 10hz interval
 try: 
 	while True:
-		publish_gps_status()
-		publish_compas_status()
+
 		time.sleep(.1)
 
 except KeyboardInterrupt:
 	# turn off all leds when program exits
-	GPIO.setup(13,GPIO.OUT)
-	GPIO.setup(19,GPIO.OUT)
-	GPIO.setup(26,GPIO.OUT)
-
-	GPIO.output(13,GPIO.LOW)
-	GPIO.output(19,GPIO.LOW)
-	GPIO.output(26,GPIO.LOW)
+	
