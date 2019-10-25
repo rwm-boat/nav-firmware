@@ -329,10 +329,10 @@ try:
 		publish_compas_status()
 		#calibrate_external_compass()
 
-		if(counter > 9):
-			publish_vector()
-			counter = 0
-		counter += 1
+		# if(counter > 9):
+		# 	publish_vector()
+		# 	counter = 0
+		# counter += 1
 
 		time.sleep(.1)
 
