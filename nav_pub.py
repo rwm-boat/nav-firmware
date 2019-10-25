@@ -253,7 +253,7 @@ def publish_vector():
 		distance = 5 # initialize non-zero
 
 	# while you have not yet hit the target create vectors
-		while(distance > TARGET_RADIUS and current_pos is not (0,0)):
+		while(distance > TARGET_RADIUS):
 
 			try:
 				target_lat = float(x['latitude'])
@@ -261,7 +261,8 @@ def publish_vector():
 				target_pos = (target_lat,target_lon)
 				cur_lat = float(current_lat)
 				cur_lon = float(current_lon)
-				distance = haversine(current_pos,target_pos,unit=Unit.NAUTICAL_MILES)
+				if(current_pos is not (0,0)):
+					distance = haversine(current_pos,target_pos,unit=Unit.NAUTICAL_MILES)
 			except Exception:
 				pass
 
