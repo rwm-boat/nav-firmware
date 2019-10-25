@@ -261,8 +261,9 @@ def publish_vector():
 				target_pos = (target_lat,target_lon)
 				cur_lat = float(current_lat)
 				cur_lon = float(current_lon)
-				if(current_pos is not (0,0)):
-					distance = haversine(current_pos,target_pos,unit=Unit.NAUTICAL_MILES)
+				if(cur_lat is not 0 and cur_lon is not 0):
+					current_position = (cur_lat,cur_lon)
+				distance = haversine(current_position,target_pos,unit=Unit.NAUTICAL_MILES)
 			except Exception:
 				pass
 
