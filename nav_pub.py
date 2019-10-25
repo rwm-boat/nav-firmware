@@ -145,13 +145,3 @@ vector_thread.start()
 
 
 # ------------- main program loop ----------------
-
-#publish all boat values at 10hz interval
-try: 
-	while True:
-
-		time.sleep(.1)
-
-except KeyboardInterrupt:
-	# turn off all leds when program exits
-	
