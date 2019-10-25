@@ -62,6 +62,8 @@ a = datetime.datetime.now()
 pubber = Publisher(client_id="nav-pubber")
 
 speed = 0
+current_lat = 0
+current_lon = 0
 
 #vector math
 wgs84 = nv.FrameE(name='WGS84')
@@ -73,10 +75,13 @@ def publish_gps_status():
 	global total_distance
 	global distance_traveled
 	global speed
+	global current_lat
+	global current_lon
 	try:
 		# determine if real values are being produced, convert to knots, then calculate distance traveled
 		if (agps_thread.data_stream.speed != 'n/a' and agps_thread.data_stream.speed != 0):
 					speed_kn = agps_thread.data_stream.speed * 1.94384449
+					
 					current_pos = (agps_thread.data_stream.lat,agps_thread.data_stream.lon)
 					if(prev_pos == (0,0)):
 						prev_pos = current_pos
@@ -88,6 +93,8 @@ def publish_gps_status():
 		if(distance_traveled < 0.1):
 			total_distance += distance_traveled
 			current_pos = (agps_thread.data_stream.lat,agps_thread.data_stream.lon)
+			current_lon = agps_thread.data_stream.lon
+			current_lat = agps_thread.data_stream.lat
 			message = {
 				'time' :  agps_thread.data_stream.time,
 				'latitude' : agps_thread.data_stream.lat,
@@ -241,18 +248,15 @@ def publish_vector():
 
 		while(distance > TARGET_RADIUS):
 
-
 			try:
 				target_lat = float(x['latitude'])
 				target_lon = float(x['longitude'])
 				target_pos = (target_lat,target_lon)
-
 				distance = haversine(current_pos,target_pos,unit=Unit.NAUTICAL_MILES)
-
-				
-				
 			except Exception:
 				pass
+
+
 				#print("non-valid gps values")
 			
 			# -------- MAGNITUDE CONSTANTS ---------
@@ -272,14 +276,10 @@ def publish_vector():
 
 			# calculate vector between two points 
 			target_point = wgs84.GeoPoint(latitude=target_lat, longitude=target_lon, z=0, degrees = True)
-			current_point = wgs84.GeoPoint(latitude=1, longitude=2, z=0, degrees = True)
+			current_point = wgs84.GeoPoint(latitude=current_lat, longitude=current_lon, z=0, degrees = True)
 			p_AB_N = target_point.delta_to(current_point)
 			azimuth = p_AB_N.azimuth_deg[0]
 			angle = azimuth
-
-			print("target: " + str(target_point))
-			print("current: " + str(current_point))
-			print("azimuth: " + str(azimuth))
 
 			# calculate magnitude from distance
 			try:
