@@ -281,6 +281,8 @@ def publish_vector():
 			elif(distance > max_efficency): magnitude = 3
 			else: magnitude = 1
 			print("distance: " + str(distance))
+			print(current_pos)
+			print(target_pos)
 			
 
 			# post message with new data
