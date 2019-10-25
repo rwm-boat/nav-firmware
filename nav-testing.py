@@ -96,6 +96,7 @@ def publish_gps_status():
 				'course': agps_thread.data_stream.track,
 				'distance': total_distance
 			}
+			print(message)
 	except Exception:
 		print("invalid gps values")
 
@@ -240,6 +241,7 @@ def publish_vector():
 				target_pos = (target_lat,target_lon)
 
 				distance = haversine(current_pos,target_pos,unit=Unit.NAUTICAL_MILES)
+				
 			except Exception:
 				print("non-valid gps values")
 			
