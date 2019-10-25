@@ -277,7 +277,7 @@ def publish_vector():
 			# calculate vector between two points 
 			target_point = wgs84.GeoPoint(latitude=target_lat, longitude=target_lon, z=0, degrees = True)
 			current_point = wgs84.GeoPoint(latitude=current_lat, longitude=current_lon, z=0, degrees = True)
-			p_AB_N = target_point.delta_to(current_point)
+			p_AB_N = current_point.delta_to(target_point)
 			azimuth = p_AB_N.azimuth_deg[0]
 			angle = azimuth
 
