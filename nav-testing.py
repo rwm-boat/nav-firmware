@@ -283,7 +283,7 @@ def publish_vector():
 			print(message)
 			app_json = json.dumps(message)
 			pubber.publish("/status/vector",app_json)
-			time.sleep(1)
+			#time.sleep(1)
 	
 def on_led_command(client, userdata, message):
 	obj = json.loads(message.payload.decode('utf-8'))
