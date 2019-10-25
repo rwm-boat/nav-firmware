@@ -220,7 +220,7 @@ def publish_vector():
 
 	global distance
 
-	TARGET_RADIUS = 0.0025
+	TARGET_RADIUS = 0.002
 
 	# JSON for lat and lon locations
 	gps_targets = [
@@ -279,7 +279,7 @@ def publish_vector():
 
 			print("target: " + str(target_point))
 			print("current: " + str(current_point))
-			pint("azimuth: " + str(azimuth))
+			print("azimuth: " + str(azimuth))
 
 			# calculate magnitude from distance
 			try:
