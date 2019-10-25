@@ -317,8 +317,8 @@ subber = Subscriber(client_id="led_actuator", broker_ip="192.168.1.170", default
 thread = Thread(target=subber.listen)
 thread.start()
 
-vector_thread = Thread(target=publish_vector)
-vector_thread.start()
+# vector_thread = Thread(target=publish_vector)
+# vector_thread.start()
 
 counter = 0
 
@@ -328,6 +328,11 @@ try:
 		publish_gps_status()
 		publish_compas_status()
 		#calibrate_external_compass()
+
+		if(counter > 9):
+			publish_vector()
+			counter = 0
+		counter += 1
 
 		time.sleep(.1)
 
