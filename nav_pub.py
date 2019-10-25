@@ -261,8 +261,8 @@ def publish_vector():
 				target_lat = float(x['latitude'])
 				target_lon = float(x['longitude'])
 				target_pos = (target_lat,target_lon)
-				cur_lat = current_lat
-				cur_lon = current_lon
+				cur_lat = float(current_lat)
+				cur_lon = float(current_lon)
 				distance = haversine(current_pos,target_pos,unit=Unit.NAUTICAL_MILES)
 			except Exception:
 				pass
@@ -277,7 +277,7 @@ def publish_vector():
 				angle += 360
 			
 			# calculate magnitude from distance
-			distance = haversine(current_pos,target_pos, unit=Unit.NAUTICAL_MILES)
+			#distance = haversine(current_pos,target_pos, unit=Unit.NAUTICAL_MILES)
 			if(distance > plane): magnitude = 5
 			elif(distance > min_plane): magnitude = 4
 			elif(distance > max_efficency): magnitude = 3
