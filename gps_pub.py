@@ -18,6 +18,8 @@ total_distance = 0
 current_pos = (0,0)
 prev_pos = (0,0)
 
+# Setup publisher
+pubber = Publisher(client_id="gps-pubber")
 
 def publish_gps_status():
 	global prev_pos
@@ -77,6 +79,8 @@ def publish_gps_status():
 		else:
 			app_json = json.dumps(led_on_message)
 			pubber.publish("/command/led",app_json)
+		
+		
 		app_json = json.dumps(message)
 		pubber.publish("/status/gps",app_json)
 		
