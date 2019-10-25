@@ -293,6 +293,8 @@ def publish_vector():
 			elif(distance > max_efficency): magnitude = 3
 			else: magnitude = 1
 			print("distance: " + str(distance))
+			if(angle < 0):
+				angle += 360
 			# post message with new data
 			message = {
 				'heading' : angle,
