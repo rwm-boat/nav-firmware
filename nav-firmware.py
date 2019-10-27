@@ -10,16 +10,16 @@ vector_thread = Thread(target=publish_vector)
 vector_thread.start()
 
 try:
-	while(True):
-		publish_compas_status()
-		publish_gps_status()
-		time.sleep(.1)
+        while(True):
+                publish_compas_status()
+                publish_gps_status()
+                time.sleep(.1)
 except KeyboardInterrupt:
-	GPIO.setup(13,GPIO.OUT)
-	GPIO.setup(19,GPIO.OUT)
-	GPIO.setup(26,GPIO.OUT)
+        GPIO.setup(13,GPIO.OUT)
+        GPIO.setup(19,GPIO.OUT)
+        GPIO.setup(26,GPIO.OUT)
 
-	GPIO.output(13,GPIO.LOW)
-	GPIO.output(19,GPIO.LOW)
-	GPIO.output(26,GPIO.LOW)
-	print("exit")
+        GPIO.output(13,GPIO.LOW)
+        GPIO.output(19,GPIO.LOW)
+        GPIO.output(26,GPIO.LOW)
+        print("exit")
