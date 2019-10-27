@@ -20,12 +20,8 @@ ext_magYmax = 0
 ext_magZmax = 0
 ext_magZmin = 0
 
-# I2C connection if possible
-try:
-	i2c = busio.I2C(board.SCL, board.SDA)
-	sensor = adafruit_lsm9ds0.LSM9DS0_I2C(i2c)
-except Exception:
-	print("no 9dof imu")
+i2c = busio.I2C(board.SCL, board.SDA)
+sensor = adafruit_lsm9ds0.LSM9DS0_I2C(i2c)
 
 M_PI = 3.14159265358979323846
 
@@ -94,13 +90,11 @@ def publish_compas_status():
 
 		#Calculate heading
 		heading = 180 * math.atan2(corrected_x,corrected_y)/M_PI
-		uncal_heading = 180 * math.atan2(mag_x,mag_y)/M_PI
+
 
 		#Only have our heading between 0 and 360
 		if heading < 0:
 			heading += 360
-		if uncal_heading < 0:
-			uncal_heading += 360
 
 		# out_file = open("course_comparison.txt", "a")
 		# out_file.write(str(heading) + "," + str(uncal_heading) + "," + str(internal_compass) + "," + str(agps_thread.data_stream.track))
@@ -110,6 +104,7 @@ def publish_compas_status():
 			'temp' : temp,
 			'compass': heading,
 		}
+		print(message)
 		app_json = json.dumps(message)
 		pubber.publish("/status/compass",app_json)
 
