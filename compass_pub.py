@@ -27,6 +27,8 @@ sensor = adafruit_lsm9ds0.LSM9DS0_I2C(i2c)
 
 M_PI = 3.14159265358979323846
 
+pubber = Publisher(client_id="compass-pubber")
+
 def calibrate_external_compass():
 	mag_x, mag_y, mag_z = sensor.magnetic
 	print(str(mag_x) + "," + str(mag_y))
