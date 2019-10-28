@@ -109,4 +109,4 @@ def publish_compas_status():
 		pubber.publish("/status/compass",app_json)
 
 	except Exception:
-		pass
+		"compass did not publish"
