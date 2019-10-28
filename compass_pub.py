@@ -3,6 +3,7 @@ import busio
 import adafruit_lsm9ds0
 import RPi.GPIO as GPIO
 from mqtt_client.publisher import Publisher
+import math
 
 #external compass hard iron distortion calibration values
 e_magXmin = -0.4564
