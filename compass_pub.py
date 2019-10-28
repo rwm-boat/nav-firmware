@@ -30,15 +30,15 @@ M_PI = 3.14159265358979323846
 pubber = Publisher(client_id="compass-pubber")
 
 def calibrate_external_compass():
-	mag_x, mag_y, mag_z = sensor.magnetic
-	print(str(mag_x) + "," + str(mag_y))
-	
 	global ext_magXmax
 	global ext_magXmin
 	global ext_magYmax 
 	global ext_magYmin 
 	global ext_magZmin
 	global ext_magZmax
+
+	mag_x, mag_y, mag_z = sensor.magnetic
+	print(str(mag_x) + "," + str(mag_y))
 
 	if(mag_x > ext_magXmax): ext_magXmax = mag_x
 	if(mag_x < ext_magXmin): ext_magXmin = mag_x
@@ -53,7 +53,6 @@ def calibrate_external_compass():
 	print("Y Min: " + str(ext_magYmin))
 	print("Z Min: " + str(ext_magZmin))
 	print("Z Max: " + str(ext_magZmax))
-	
 
 def publish_compas_status():
 
