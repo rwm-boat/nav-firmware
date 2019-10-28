@@ -38,7 +38,7 @@ def publish_vector():
 		for line in json_file.readlines():
 			x = json.loads(line)
 			distance = 5 # initialize non-zero
-
+			print("Waypoint Hit")
 		# while you have not yet hit the target create vectors
 			while(distance > TARGET_RADIUS):
 

@@ -98,7 +98,6 @@ def publish_compas_status():
 			'temp' : temp,
 			'compass': heading,
 		}
-		print(message)
 		app_json = json.dumps(message)
 		pubber.publish("/status/compass",app_json)
 
