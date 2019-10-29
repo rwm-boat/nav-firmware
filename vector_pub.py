@@ -79,3 +79,10 @@ def publish_vector():
 					app_json = json.dumps(message)
 					pubber.publish("/status/vector",app_json)
 					time.sleep(1)
+				message = {
+						'heading' : 0,
+						'magnitude' : 0,
+					}
+				app_json = json.dumps(message)
+				pubber.publish("/status/vector",app_json)
+
