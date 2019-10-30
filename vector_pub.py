@@ -78,7 +78,7 @@ def publish_vector():
 					print(message)
 					app_json = json.dumps(message)
 					pubber.publish("/status/vector",app_json)
-					time.sleep(1)
+					time.sleep(5)
 				
 			message = {
 					'heading' : 0,
