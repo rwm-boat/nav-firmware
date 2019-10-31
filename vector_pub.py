@@ -85,5 +85,5 @@ def publish_vector():
 					'magnitude' : 0,
 				}
 			app_json = json.dumps(message)
-			pubber.publish("/status/vector",app_json)
+			pubber.publish("/status/vector",app_json) 
 

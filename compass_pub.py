@@ -88,7 +88,7 @@ def publish_compas_status():
 		# out_file.write("\n")
 
 		#Calculate heading
-		heading = 180 * math.atan2(corrected_x,corrected_y)/M_PI
+		heading = 180 * math.atan2(corrected_y,corrected_x)/M_PI
 
 
 		#Only have our heading between 0 and 360
