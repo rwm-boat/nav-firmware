@@ -30,7 +30,7 @@ def publish_vector():
 	max_efficency = 0.15 # ~ 25m
 	troll = 0.0025 # ~ 5m
 
-	TARGET_RADIUS = 0.002
+	TARGET_RADIUS = 0.0035
 	# -------------------------------
 
 	#itterate through list of gps targets
@@ -78,7 +78,7 @@ def publish_vector():
 					print(message)
 					app_json = json.dumps(message)
 					pubber.publish("/status/vector",app_json)
-					time.sleep(1)
+					time.sleep(5)
 				
 			message = {
 					'heading' : 0,
