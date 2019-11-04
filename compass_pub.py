@@ -5,6 +5,7 @@ import RPi.GPIO as GPIO
 from mqtt_client.publisher import Publisher
 import math
 import json
+import numpy
 
 #external compass hard iron distortion calibration values
 e_magXmin = -0.4564
@@ -83,13 +84,8 @@ def publish_compas_status():
 		corrected_y = (mag_y - offset_y) * scale_y
 		corrected_z = (mag_y - offset_z) * scale_z
 
-		# out_file = open("uncalibrated_compass.txt", "a")
-		# out_file.write(str(mag_x) + "," + str(mag_y) + "," + str(mag_z))
-		# out_file.write("\n")
-
 		#Calculate heading
-		heading = 180 * math.atan2(corrected_y,corrected_x)/M_PI
-
+		heading = round(- numpy.degrees(math.atan2(corrected_y,corrected_x)), 1)
 
 		#Only have our heading between 0 and 360
 		if heading < 0:

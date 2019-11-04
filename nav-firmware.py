@@ -11,9 +11,9 @@ vector_thread.start()
 
 try:
         while(True):
-                publish_compas_status()
-                publish_gps_status()
-                time.sleep(.1)
+        publish_compas_status()
+        publish_gps_status()
+        time.sleep(.1)
 except KeyboardInterrupt:
         GPIO.setup(13,GPIO.OUT)
         GPIO.setup(19,GPIO.OUT)
