@@ -76,6 +76,9 @@ def calibrate_external_compass():
 def publish_compas_status():
 
 		global a 
+		global gyroXangle
+		global gyroYangle
+		global gyroZangle
 
 		mag_x, mag_y, mag_z = sensor.magnetic
 		temp = sensor.temperature
