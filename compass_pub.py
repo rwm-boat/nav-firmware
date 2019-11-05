@@ -79,6 +79,9 @@ def publish_compas_status():
 		global gyroXangle
 		global gyroYangle
 		global gyroZangle
+		global CFangleX
+		global CFangleY
+
 
 		mag_x, mag_y, mag_z = sensor.magnetic
 		temp = sensor.temperature
