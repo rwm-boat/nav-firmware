@@ -24,6 +24,14 @@ ext_magYmax = 0
 ext_magZmax = 0
 ext_magZmin = 0
 
+
+gyroXangle = 0.0
+gyroYangle = 0.0
+gyroZangle = 0.0
+CFangleX = 0.0
+CFangleY = 0.0
+
+
 i2c = busio.I2C(board.SCL, board.SDA)
 sensor = adafruit_lsm9ds0.LSM9DS0_I2C(i2c)
 
@@ -146,7 +154,7 @@ def publish_compas_status():
 		#Only have our heading between 0 and 360
 		if heading < 0:
 			heading += 360
-			
+
 		message = {
 			'temp' : temp,
 			'compass': heading,
