@@ -27,10 +27,10 @@ def publish_vector():
 	FULL_CHAT = 0.5 # ~ 100 meters
 	PLANE = 0.5 
 	MIN_PLANE = 0.5
-	MAX_EFFICENCY = 0.15 # ~ 25m
-	TROLL = 0.15 # ~ 25m
+	MAX_EFFICENCY = 0.00674946 # ~ 25m
+	TROLL = 0.00404968 # ~ 15m
 
-	TARGET_RADIUS = 0.00269978 #10m radius
+	TARGET_RADIUS = 0.00269978 # 10m radius
 	TARGET_PUB_FREQ = 3 # seconds between transmissions
 
 	GETTINGCLOSE_RADIUS = 0.00539957 # 20m radius
