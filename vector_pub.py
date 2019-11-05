@@ -28,7 +28,7 @@ def publish_vector():
 	PLANE = 0.5 
 	MIN_PLANE = 0.5
 	MAX_EFFICENCY = 0.00674946 # ~ 25m
-	TROLL = 0.00404968 # ~ 15m
+	TROLL = 0.008 # ~ 15m radius
 
 	TARGET_RADIUS = 0.00269978 # 10m radius
 	TARGET_PUB_FREQ = 3 # seconds between transmissions
