@@ -13,7 +13,7 @@ try:
         while(True):
                 publish_compas_status()
                 publish_gps_status()
-                calibrate_external_compass()
+                #calibrate_external_compass()
                 time.sleep(.1)
 except KeyboardInterrupt:
         GPIO.setup(13,GPIO.OUT)

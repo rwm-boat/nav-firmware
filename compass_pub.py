@@ -9,12 +9,12 @@ import numpy
 import datetime
 
 #external compass hard iron distortion calibration values
-e_magXmin = -0.4564
-e_magYmin = -0.4388
+e_magXmin = -0.55064
+e_magYmin = -0.47416
 e_magZmin = 0
-e_magXmax = 0.44608
-e_magYmax = 0.46336
-e_magZmax = 0.66368
+e_magXmax = 0.49216
+e_magYmax = 0.3976
+e_magZmax = 0.6792
 
 #calibration function values
 ext_magXmin = 0
@@ -85,14 +85,18 @@ def publish_compas_status():
 		accel_x, accel_y, accel_z = sensor.acceleration
 		gyro_x, gyro_y, gyro_z = sensor.gyro
 		
-		# # Apply hard iron distortion calibration 
-		# offset_x = (e_magXmax + e_magXmin) / 2
-		# offset_y = (e_magYmax + e_magYmin) / 2
-		# offset_z = (e_magZmax + e_magZmin) / 2
+		# Apply hard iron distortion calibration 
+		offset_x = (e_magXmax + e_magXmin) / 2
+		offset_y = (e_magYmax + e_magYmin) / 2
+		offset_z = (e_magZmax + e_magZmin) / 2
 
-		# corrected_x = mag_x - offset_x
-		# corrected_y = mag_y - offset_y
-		# corrected_z = mag_z - offset_z
+		corrected_x = mag_x - offset_x
+		corrected_y = mag_y - offset_y
+		corrected_z = mag_z - offset_z
+
+		mag_x = corrected_x
+		mag_y = corrected_y
+		mag_z = corrected_z
 
 		# # Apply soft iron compass calibration
 		# avg_delta_x = (e_magXmax - e_magXmin) / 2
