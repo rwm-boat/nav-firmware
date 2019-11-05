@@ -28,7 +28,7 @@ def publish_vector():
 	PLANE = 0.5 
 	MIN_PLANE = 0.5
 	MAX_EFFICENCY = 0.15 # ~ 25m
-	TROLL = 0.0025 # ~ 5m
+	TROLL = 0.15 # ~ 25m
 
 	TARGET_RADIUS = 0.00269978 #10m radius
 	TARGET_PUB_FREQ = 3 # seconds between transmissions
@@ -74,7 +74,7 @@ def publish_vector():
 					# elif(distance > MAX_EFFICENCY): magnitude = 3
 					elif(distance > TROLL): magnitude = 2
 					elif(distance < TROLL): magnitude = 1
-					else: magnitude = 0
+					elif(distance < TARGET_RADIUS): magnitude = 0
 					print("distance: " + str(distance))
 			
 					# post message with new data
