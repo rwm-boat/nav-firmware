@@ -69,10 +69,12 @@ def publish_vector():
 					
 					# calculate magnitude from distance
 					if(distance > 10): magnitude = 1 # remove outliers
-					elif(distance > PLANE): magnitude = 5
-					elif(distance > MIN_PLANE): magnitude = 4
-					elif(distance > MAX_EFFICENCY): magnitude = 3
-					else: magnitude = 1
+					# elif(distance > PLANE): magnitude = 5
+					# elif(distance > MIN_PLANE): magnitude = 4
+					# elif(distance > MAX_EFFICENCY): magnitude = 3
+					elif(distance > TROLL): magnitude = 2
+					elif(distance < TROLL): magnitude = 1
+					else: magnitude = 0
 					print("distance: " + str(distance))
 			
 					# post message with new data
