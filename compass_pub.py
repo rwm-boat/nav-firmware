@@ -85,18 +85,18 @@ def publish_compas_status():
 		accel_x, accel_y, accel_z = sensor.acceleration
 		gyro_x, gyro_y, gyro_z = sensor.gyro
 		
-		# Apply hard iron distortion calibration 
-		offset_x = (e_magXmax + e_magXmin) / 2
-		offset_y = (e_magYmax + e_magYmin) / 2
-		offset_z = (e_magZmax + e_magZmin) / 2
+		# # Apply hard iron distortion calibration 
+		# offset_x = (e_magXmax + e_magXmin) / 2
+		# offset_y = (e_magYmax + e_magYmin) / 2
+		# offset_z = (e_magZmax + e_magZmin) / 2
 
-		corrected_x = mag_x - offset_x
-		corrected_y = mag_y - offset_y
-		corrected_z = mag_z - offset_z
+		# corrected_x = mag_x - offset_x
+		# corrected_y = mag_y - offset_y
+		# corrected_z = mag_z - offset_z
 
-		mag_x = corrected_x
-		mag_y = corrected_y
-		mag_z = corrected_z
+		# mag_x = corrected_x
+		# mag_y = corrected_y
+		# mag_z = corrected_z
 
 		# # Apply soft iron compass calibration
 		# avg_delta_x = (e_magXmax - e_magXmin) / 2
