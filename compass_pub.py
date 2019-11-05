@@ -54,9 +54,6 @@ def calibrate_external_compass():
 
 	mag_x, mag_y, mag_z = sensor.magnetic
 	
-
-
-
 	print(str(mag_x) + "," + str(mag_y))
 
 	if(mag_x > ext_magXmax): ext_magXmax = mag_x
