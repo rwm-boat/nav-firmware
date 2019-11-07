@@ -159,8 +159,8 @@ def publish_compas_status():
 		heading = round(numpy.degrees(math.atan2(magYcomp,magXcomp)))-90 - 14
 
 		#Only have our heading between 0 and 360
-		# if heading < 0:
-		# 	heading += 360
+		 if heading < 0:
+		 	heading += 360
 
 		message = {
 			'temp' : temp,
