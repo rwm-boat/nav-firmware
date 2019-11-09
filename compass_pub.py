@@ -149,23 +149,24 @@ def publish_compas_status():
 		#Calculate pitch and roll
 		pitch = math.asin(accXnorm)
 		roll = -math.asin(accYnorm/math.cos(pitch))
-
+		
     	#Calculate the new tilt compensated values
 		magXcomp = mag_x*math.cos(pitch)+mag_z*math.sin(pitch)
-
 		magYcomp = mag_x*math.sin(roll)*math.sin(pitch)+mag_y*math.cos(roll)-mag_z*math.sin(roll)*math.cos(pitch)   #LSM9DS0
 
 		#Calculate heading
 		heading = round(numpy.degrees(math.atan2(magYcomp,magXcomp)))-90 - 14
 
 		#Only have our heading between 0 and 360
-		 if heading < 0:
+		if heading < 0:
 		 	heading += 360
 
 		message = {
 			'temp' : temp,
 			'compass': heading,
+			'gyro_z' : rate_gyr_z
 		}
+		print(message)
 		app_json = json.dumps(message)
 		pubber.publish("/status/compass",app_json)
 
