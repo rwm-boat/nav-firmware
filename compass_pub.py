@@ -48,6 +48,9 @@ pubber = Publisher(client_id="compass-pubber")
 
 a = datetime.datetime.now()
 
+current =  0
+previous = 0
+
 ### sqrt of the variance is the error distance (aka. meters or degrees) ###
 # how much error there is in the process model (how much do we trust the model)
 process_var = 4.
@@ -181,17 +184,15 @@ def publish_compas_status():
 		if heading < 0:
 		 	heading += 360
 
-		# def low_pass_filter(data, cutoff_freq, sample_freq, order=5):
-    
-		# 	w = cutoff_freq / (sample_freq / 2) # normalize frequency
-			
-		# 	b, a = butter(order, w, 'low')
-		# 	output = signal.filtfilt(b, a, data)
+		def low_pass_filter(data, a):
 
-		# 	return output
-    			
-			
+			global previous
+					
+			output = (a*data) + (1-a) * previous
+			previous = output
 
+			return output
+    			    			
 		def kalman_filter(z):
     			
 			global x
@@ -221,7 +222,7 @@ def publish_compas_status():
 			'temp' : temp,
 			'compass': heading,
 			'gyro_z' : rate_gyr_z,
-			# 'compass_lp': low_pass_filter(heading, .5, 10),
+			'compass_lp': low_pass_filter(heading, .1),
 			"kalman" : kalman_filter(heading)
 		}
 		print(message)
