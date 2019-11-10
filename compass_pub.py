@@ -7,6 +7,10 @@ import math
 import json
 import numpy
 import datetime
+from scipy.signal import butter, lfilter, freqz
+from scipy import signal
+import filterpy.kalman as kf
+from filterpy.stats import gaussian
 
 #external compass hard iron distortion calibration values
 e_magXmin = -0.55064
@@ -161,10 +165,60 @@ def publish_compas_status():
 		if heading < 0:
 		 	heading += 360
 
+		def low_pass_filter(data, cutoff_freq, sample_freq, order=5):
+    
+			w = cutoff_freq / (sample_freq / 2) # normalize frequency
+			
+			b, a = butter(order, w, 'low')
+			output = signal.filtfilt(b, a, data)
+
+			return output
+		def kalman_filter(z):
+  
+			### sqrt of the variance is the error distance (aka. meters or degrees) ###
+			# how much error there is in the process model (how much do we trust the model)
+			process_var = 4.
+			# how much error there is in each sensor measurement (how much do we trust the sensor)
+			sensor_var = .3
+
+			## Initial State ##
+			# [position, variance, sensor_var] sensor state
+			# [(meters, degrees), (meters, degrees), ] ## remember sqrt of variance is distance error
+			x = gaussian(0., 0., sensor_var) 
+
+
+			#[position, velocity, process_var] of model initial state
+			# how we think the system works
+			process_model = gaussian(0., 0., process_var)
+
+			# -------- PREDICT --------- #
+			# X is the state of the system
+			# P is the variance of the system
+			# u is the movement of the system due to the process
+			# Q is the noise of the process
+			x, P = kf.predict(x=x, P=process_model)
+			# sensor says z with a standard deviation of sensorvar**2
+			# probability of the measurement given the current state 
+			#likelihood = gaussian(z, mean(z), sensor_var) 
+
+			# -------- UPDATE --------- #
+			# X is the state of the system
+			# P is the variance of the system
+			# z is the measurement
+			# R is the measurement variance
+			print(P)
+			x, P = kf.update(x=x, P=P, z=z, R=sensor_var)
+			# print( "x: ",'%.3f' % x, "var: " '%.3f' % P, "z: ", '%.3f' % z)
+			#print(x)
+	
+			return x
+
+
 		message = {
 			'temp' : temp,
 			'compass': heading,
-			'gyro_z' : rate_gyr_z
+			'gyro_z' : rate_gyr_z,
+			'compass_lp': low_pass_filter(heading, .5, 10)
 		}
 		print(message)
 		app_json = json.dumps(message)
