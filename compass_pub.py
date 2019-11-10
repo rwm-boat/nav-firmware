@@ -193,6 +193,10 @@ def publish_compas_status():
 			
 
 		def kalman_filter(z):
+    			
+			global x
+			global process_model
+			
   			# -------- PREDICT --------- #
 			# X is the state of the system
 			# P is the variance of the system
