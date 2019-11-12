@@ -222,7 +222,7 @@ def publish_compas_status():
 			'temp' : temp,
 			'compass': heading,
 			'gyro_z' : rate_gyr_z,
-			'compass_lp': low_pass_filter(heading, .1),
+			'kalman_lp': low_pass_filter(kalman_filter(heading), .2),
 			"kalman" : kalman_filter(heading)
 		}
 		print(message)
