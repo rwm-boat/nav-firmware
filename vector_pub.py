@@ -31,7 +31,7 @@ def publish_vector():
 	TROLL = 0.008 # ~ 15m radius
 
 	TARGET_RADIUS = 0.00269978 # 10m radius
-	TARGET_PUB_FREQ = 3 # seconds between transmissions
+	TARGET_PUB_FREQ = 5 # seconds between transmissions
 
 	GETTINGCLOSE_RADIUS = 0.00539957 # 20m radius
 	GETTINGCLOSE_PUB_FREQ = 1 # seconds between transmissions
