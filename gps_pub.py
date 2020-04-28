@@ -53,7 +53,7 @@ def publish_gps_status():
 					'course': agps_thread.data_stream.track,
 					'distance': total_distance
 				}
-
+				print(message)
 				app_json = json.dumps(message)
 				pubber.publish("/status/gps",app_json)	
 		else:
@@ -80,7 +80,6 @@ def publish_gps_status():
 			app_json = json.dumps(led_on_message)
 			pubber.publish("/command/led",app_json)
 		
-		print(message)
 		app_json = json.dumps(message)
 		pubber.publish("/status/gps",app_json)
 		
