@@ -102,15 +102,15 @@ def publish_compas_status():
 	print(sensor.magnetic)
 
 		
-	message = {
-		'temp' : temp,
-		'compass': heading,
-		'gyro_z' : rate_gyr_z,
-		'kalman_lp': low_pass_filter(kalman_filter(heading), .2),
-		"kalman" : kalman_filter(heading)
-	}
-	print(message)
-	app_json = json.dumps(message)
-	pubber.publish("/status/compass",app_json)
+	# message = {
+	# 	'temp' : temp,
+	# 	'compass': heading,
+	# 	'gyro_z' : rate_gyr_z,
+	# 	'kalman_lp': low_pass_filter(kalman_filter(heading), .2),
+	# 	"kalman" : kalman_filter(heading)
+	# }
+	# print(message)
+	# app_json = json.dumps(message)
+	# pubber.publish("/status/compass",app_json)
 
 	
