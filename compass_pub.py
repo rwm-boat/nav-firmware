@@ -1,6 +1,6 @@
 import board
 import busio
-import adafruit_lsm9ds0
+#import adafruit_lsm9ds0
 import RPi.GPIO as GPIO
 from mqtt_client.publisher import Publisher
 import math
