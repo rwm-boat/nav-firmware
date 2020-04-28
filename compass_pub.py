@@ -98,8 +98,17 @@ a = datetime.datetime.now()
 # 	print("Z Max: " + str(ext_magZmax))
 
 def publish_compas_status():
-
 	print(sensor.magnetic)
+	raw_mag = sensor.magnetic
+
+	mag_x = raw_mag[0]
+	mag_y = raw_mag[1]
+	mag_z = raw_mag[2]
+
+	mag_heading = math.atan2(mag_y,mag_x)*(180/math.pi)
+	print(mag_heading)
+
+	
 
 		
 	# message = {
