@@ -16,12 +16,12 @@ i2c = busio.I2C(board.SCL,board.SDA)
 sensor = adafruit_bno055.BNO055_I2C(i2c)
 
 #external compass hard iron distortion calibration values
-e_magXmin = -0.55064
-e_magYmin = -0.47416
-e_magZmin = 0
-e_magXmax = 0.49216
-e_magYmax = 0.3976
-e_magZmax = 0.6792
+e_magXmin = -22.0625
+e_magYmin = -25.5
+e_magZmin = -52.5
+e_magXmax = 2035.5
+e_magYmax = 50.25
+e_magZmax = 1995.75
 
 #calibration function values
 ext_magXmin = 0
@@ -106,18 +106,18 @@ def publish_compas_status():
 		accel_x, accel_y, accel_z = sensor.acceleration
 		gyro_x, gyro_y, gyro_z = sensor.gyro
 		
-		# # Apply hard iron distortion calibration 
-		# offset_x = (e_magXmax + e_magXmin) / 2
-		# offset_y = (e_magYmax + e_magYmin) / 2
-		# offset_z = (e_magZmax + e_magZmin) / 2
+		# Apply hard iron distortion calibration 
+		offset_x = (e_magXmax + e_magXmin) / 2
+		offset_y = (e_magYmax + e_magYmin) / 2
+		offset_z = (e_magZmax + e_magZmin) / 2
 
-		# corrected_x = mag_x - offset_x
-		# corrected_y = mag_y - offset_y
-		# corrected_z = mag_z - offset_z
+		corrected_x = mag_x - offset_x
+		corrected_y = mag_y - offset_y
+		corrected_z = mag_z - offset_z
 
-		# mag_x = corrected_x
-		# mag_y = corrected_y
-		# mag_z = corrected_z
+		mag_x = corrected_x
+		mag_y = corrected_y
+		mag_z = corrected_z
 
 		# # Apply soft iron compass calibration
 		# avg_delta_x = (e_magXmax - e_magXmin) / 2
@@ -224,7 +224,7 @@ def publish_compas_status():
 			'kalman_lp': low_pass_filter(kalman_filter(heading), .2),
 			"kalman" : kalman_filter(heading)
 		}
-		# print(message)
+		print(message)
 		calibrate_external_compass()
 		app_json = json.dumps(message)
 		pubber.publish("/status/compass",app_json)
