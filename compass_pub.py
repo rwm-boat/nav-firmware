@@ -176,7 +176,7 @@ def publish_compas_status():
 		magYcomp = mag_x*math.sin(roll)*math.sin(pitch)+mag_y*math.cos(roll)-mag_z*math.sin(roll)*math.cos(pitch)   #LSM9DS0
 
 		#Calculate heading
-		heading = round(numpy.degrees(math.atan2(magYcomp,magXcomp)))+ 90
+		heading = round(numpy.degrees(math.atan2(magYcomp,magXcomp)))+ 90 -14
 
 		#Only have our heading between 0 and 360
 		if heading < 0:
