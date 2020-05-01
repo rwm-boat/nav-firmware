@@ -16,11 +16,11 @@ i2c = busio.I2C(board.SCL,board.SDA)
 sensor = adafruit_bno055.BNO055_I2C(i2c)
 
 #external compass hard iron distortion calibration values
-e_magXmin = -30.75
-e_magYmin = -2008.4375
-e_magZmin = -53.0625
-e_magXmax = 2043.25
-e_magYmax = 53.6875
+e_magXmin = -19.6875
+e_magYmin = -2009.125
+e_magZmin = -48.75
+e_magXmax = 2041.3125
+e_magYmax = 39.25
 e_magZmax = 13.25
 
 #calibration function values
@@ -87,10 +87,10 @@ def calibrate_external_compass():
 
 	print("X Max: " + str(ext_magXmax))
 	print("Y Max: " + str(ext_magYmax))
+	print("Z Max: " + str(ext_magZmax))
 	print("X Min: " + str(ext_magXmin))
 	print("Y Min: " + str(ext_magYmin))
 	print("Z Min: " + str(ext_magZmin))
-	print("Z Max: " + str(ext_magZmax))
 
 def publish_compas_status():
 		global a 
