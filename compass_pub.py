@@ -224,7 +224,8 @@ def publish_compas_status():
 			'kalman_lp': low_pass_filter(kalman_filter(heading), .2),
 			"kalman" : kalman_filter(heading)
 		}
-		print(message)
+		# print(message)
+		calibrate_external_compass()
 		app_json = json.dumps(message)
 		pubber.publish("/status/compass",app_json)
 
