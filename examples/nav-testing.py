@@ -331,7 +331,7 @@ def on_led_command(client, userdata, message):
 default_subscriptions = {
 	"/command/led": on_led_command
 }
-subber = Subscriber(client_id="led_actuator", broker_ip="192.168.1.170", default_subscriptions=default_subscriptions)
+subber = Subscriber(client_id="led_actuator", broker_ip="192.168.8.170", default_subscriptions=default_subscriptions)
 
 # new thread for the subscriber
 thread = Thread(target=subber.listen)
