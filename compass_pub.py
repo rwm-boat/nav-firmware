@@ -183,6 +183,7 @@ def publish_compas_status():
 
 		#Calculate heading
 		heading = round(numpy.degrees(math.atan2(magYcomp,magXcomp)))-90 - 14
+		print(heading)
 
 		#Only have our heading between 0 and 360
 		if heading < 0:
