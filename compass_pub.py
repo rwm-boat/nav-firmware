@@ -176,7 +176,7 @@ def publish_compas_status():
 		magYcomp = mag_x*math.sin(roll)*math.sin(pitch)+mag_y*math.cos(roll)-mag_z*math.sin(roll)*math.cos(pitch)   #LSM9DS0
 
 		#Calculate heading
-		heading = round(numpy.degrees(math.atan2(magYcomp,magXcomp)))+ 90 -14
+		heading = round(numpy.degrees(math.atan2(magYcomp,magXcomp)))+ 90
 
 		#Only have our heading between 0 and 360
 		if heading < 0:
@@ -225,6 +225,7 @@ def publish_compas_status():
 			"kalman" : kalman_filter(heading)
 		}
 		print(message)
+		calibrate_external_compass()
 		app_json = json.dumps(message)
 		pubber.publish("/status/compass",app_json)
 
