@@ -16,11 +16,11 @@ i2c = busio.I2C(board.SCL,board.SDA)
 sensor = adafruit_bno055.BNO055_I2C(i2c)
 
 #external compass hard iron distortion calibration values
-e_magXmin = -26.25
-e_magYmin = -43.0
-e_magZmin = -52.875
-e_magXmax = 50.6875
-e_magYmax = 37.875
+e_magXmin = 0
+e_magYmin = 0
+e_magZmin = 0
+e_magXmax = 0
+e_magYmax = 0
 e_magZmax = 0
 
 #calibration function values

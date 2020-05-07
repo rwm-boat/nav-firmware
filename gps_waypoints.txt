@@ -1,2 +1,2 @@
-{"latitude" : 42.274982,"longitude" : -71.816890}
-{"latitude" : 42.275465,"longitude" : -71.816851}
+{"latitude" : 42.2934242,"longitude" : -71.8159033}
+{"latitude" : 42.2931810,"longitude" : -71.8156549}
